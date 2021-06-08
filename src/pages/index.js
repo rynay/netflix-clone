@@ -1,4 +1,4 @@
-export { Main } from './Main';
-export { Promo } from './Promo';
-export { SignIn } from './SignIn';
-export { SignUp } from './SignUp';
+export { default as Main } from './Main';
+export { default as Promo } from './Promo';
+export { default as SignIn } from './SignIn';
+export { default as SignUp } from './SignUp';

@@ -58,3 +58,4 @@ export const signUp =
 
 const setUser = (payload) => ({ type: TYPES.SET_USER, payload });
 const setError = (payload) => ({ type: TYPES.SET_ERROR, payload });
+export const setPath = (payload) => ({ type: TYPES.SET_PATH, payload });

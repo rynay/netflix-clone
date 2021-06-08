@@ -6,6 +6,7 @@ import { store } from './redux/store';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { firebase } from './lib/firebase';
 import { FirebaseContext } from './context/FirebaseContext';
+import './index.scss';
 
 ReactDOM.render(
   <React.StrictMode>

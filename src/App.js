@@ -1,51 +1,48 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router';
 import { init } from './redux/AC';
-import { Switch } from 'react-router-dom';
+import { useHistory, Switch, Route } from 'react-router-dom';
 import * as ROUTES from './constants/ROUTES';
-import * as PAGES from './pages';
-import { ProtectedRoute } from './components/ProtectedRoute';
+import { SignIn, SignUp, Promo, Main } from './pages';
 
-const App = ({ user, init }) => {
+const App = ({ user, init, path }) => {
   const history = useHistory();
+
   useEffect(() => {
     const cleanUp = init();
     return () => cleanUp();
   }, []);
 
+  useEffect(() => {
+    if (!path) return;
+    if (!user && path === ROUTES.MAIN) history.push(ROUTES.PROMO);
+    if (user && (path === ROUTES.SIGNIN || path === ROUTES.SIGNUP))
+      history.push(ROUTES.MAIN);
+  }, [path]);
+
   return (
-    <Switch>
-      <ProtectedRoute
-        children={PAGES.SignIn}
-        condition={!user}
-        path={ROUTES.SIGNIN}
-        redirect={ROUTES.MAIN}
-      />
-      <ProtectedRoute
-        children={PAGES.SignUp}
-        condition={!user}
-        path={ROUTES.SIGNUP}
-        redirect={ROUTES.MAIN}
-      />
-      <ProtectedRoute
-        children={PAGES.Promo}
-        condition={!user}
-        path={ROUTES.PROMO}
-        redirect={ROUTES.MAIN}
-      />
-      <ProtectedRoute
-        children={PAGES.Main}
-        condition={user}
-        path={ROUTES.MAIN}
-        redirect={ROUTES.PROMO}
-      />
-    </Switch>
+    <>
+      <Switch>
+        <Route path={ROUTES.SIGNIN}>
+          <SignIn />
+        </Route>
+        <Route path={ROUTES.SIGNUP}>
+          <SignUp />
+        </Route>
+        <Route path={ROUTES.PROMO}>
+          <Promo />
+        </Route>
+        <Route exact path={ROUTES.MAIN}>
+          <Main />
+        </Route>
+      </Switch>
+    </>
   );
 };
 
 const mapStateToProps = (state) => ({
   user: state.user,
+  path: state.path,
 });
 
 const mapDispatchToProps = (dispatch) => ({
