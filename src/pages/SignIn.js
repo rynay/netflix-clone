@@ -4,7 +4,6 @@ import { setPath } from '../redux/AC';
 import { useRouteMatch } from 'react-router-dom';
 import { SignInForm } from '../components/SignInForm';
 import { Header } from '../components/Header';
-import { Footer } from '../components/Footer';
 import * as ROUTES from '../constants/ROUTES';
 import { Link } from 'react-router-dom';
 
@@ -15,11 +14,14 @@ const SignIn = ({ setPath }) => {
   }, [path]);
   return (
     <>
-      <Header navigation={<Link to={ROUTES.SIGNUP}>Sign Up</Link>}>
+      <Header
+        navigation={
+          <Link className="button" to={ROUTES.SIGNUP}>
+            Sign Up
+          </Link>
+        }>
         <SignInForm />
       </Header>
-      <main></main>
-      <Footer />
     </>
   );
 };

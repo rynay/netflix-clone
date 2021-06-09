@@ -5,8 +5,6 @@ import { useRouteMatch } from 'react-router-dom';
 import { MainHeaderContent } from '../components/MainHeaderContent';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
-import * as ROUTES from '../constants/ROUTES';
-import { Link } from 'react-router-dom';
 
 const Main = ({ setPath }) => {
   const { path } = useRouteMatch();

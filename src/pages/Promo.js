@@ -15,7 +15,12 @@ const Promo = ({ setPath }) => {
   }, [path]);
   return (
     <>
-      <Header navigation={<Link to={ROUTES.SIGNIN}>Sign In</Link>}>
+      <Header
+        navigation={
+          <Link className="button" to={ROUTES.SIGNIN}>
+            Sign In
+          </Link>
+        }>
         <PromoHeaderContent />
       </Header>
       <main></main>
