@@ -19,7 +19,7 @@ const Header = ({ navigation, children, footer }) => {
           </div>
           <div className="header__interactiveElements">{navigation}</div>
         </header>
-        <section className="header__content">{children}</section>
+        <div className="header__content">{children}</div>
         {footer}
       </div>
     </div>
