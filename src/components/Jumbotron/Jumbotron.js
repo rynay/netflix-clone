@@ -1,28 +1,39 @@
-const jumbotronContent = [
-  {
-    title: 'Enjoy on your TV.',
-    text: 'Watch on Smart TVs, Playstation, Xbox, Chromecast, Apple TV, Blu-ray players, and more.',
-    image: '/images/misc/tv.png',
-    video: '/videos/video-tv.m4v',
-  },
-  {
-    title: 'Download your shows to watch offline.',
-    text: 'Save your favorites easily and always have something to watch.',
-    image: '/images/misc/home-mobile.jpg',
-  },
-  {
-    title: 'Watch everywhere.',
-    text: 'Stream unlimited movies and TV shows on your phone, tablet, laptop, and TV without paying more.',
-    image: '/images/misc/device-pile.png',
-    video: '/videos/video-devices.m4v',
-  },
-  {
-    title: 'Create profiles for kids.',
-    text: 'Send kids on adventures with their favorite characters in a space made just for them—free with your membership.',
-    image: '/images/misc/home-kids.png',
-  },
-];
-
+import content from '../../fixtures/jumbo.json';
 export const Jumbotron = () => {
-  return <div>Jumbotron</div>;
+  return (
+    <div className="jumbotron">
+      {content.map((item) => (
+        <section key={item.id} className="jumbotron__itemContainer">
+          <div className="jumbotronContainer">
+            <div className="jumbotron__content">
+              <h2 className="jumbotron__title">{item.title}</h2>
+              <p className="jumbotron__text">{item.text}</p>
+            </div>
+            <div className="jumbotron__media">
+              {!item.video && (
+                <img className="jumbotron__image" src={item.image} alt="" />
+              )}
+              {item.video && (
+                <>
+                  <img
+                    className="jumbotron__imageVideo"
+                    src={item.image}
+                    alt=""
+                  />
+                  <video
+                    className={`jumbotron__video jumbotron__video--${item.id}`}
+                    autoPlay={true}
+                    playsInline={true}
+                    muted={true}
+                    loop={true}>
+                    <source src={item.video} type="video/mp4" />
+                  </video>
+                </>
+              )}
+            </div>
+          </div>
+        </section>
+      ))}
+    </div>
+  );
 };

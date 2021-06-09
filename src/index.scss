@@ -214,3 +214,127 @@ img {
   }
 }
 //===========================================//
+
+//===========================================//
+.jumbotron {
+  color: #fff;
+  border-top: 1rem solid #222;
+  border-bottom: 1rem solid #222;
+  @media screen and (max-width: 60em) {
+    &__itemContainer:nth-of-type(3) {
+      .jumbotron__content {
+        margin-bottom: 2rem !important;
+      }
+    }
+    &__itemContainer:nth-of-type(4) {
+      .jumbotron__content {
+        margin-bottom: 2rem !important;
+      }
+    }
+  }
+
+  &__itemContainer:nth-of-type(odd) {
+    .jumbotron__content {
+      order: 0;
+      margin: 0 2em;
+    }
+    .jumbotron__media {
+      order: 1;
+
+      margin: 0;
+    }
+  }
+  &__itemContainer:nth-of-type(even) {
+    .jumbotron__content {
+      order: 1;
+
+      margin: 0;
+    }
+    .jumbotron__media {
+      order: 0;
+
+      margin: 0 2em;
+    }
+  }
+
+  &__itemContainer:not(:last-child) {
+    border-bottom: 1rem solid #222;
+  }
+  &__itemContainer {
+    padding: 2em 0;
+  }
+  &__content {
+    max-width: 30em;
+  }
+  &__title {
+    line-height: 1;
+    font-size: 2.7em;
+    padding: 1em 0;
+  }
+  &__text {
+    font-size: 1.3em;
+  }
+
+  &__video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    &--1 {
+      width: 73%;
+      transform: translate(-51%, -54%);
+    }
+    &--3 {
+      width: 65%;
+      transform: translate(-50%, -85%);
+    }
+  }
+  &__media {
+    position: relative;
+    width: 55rem;
+    flex-basis: 55rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__imageVideo {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+.jumbotronContainer {
+  width: 114rem;
+  max-width: 90vw;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media screen and (max-width: 78.625em) {
+    font-size: 1.4rem;
+  }
+  @media screen and (max-width: 60em) {
+    flex-wrap: wrap;
+    text-align: center;
+
+    .jumbotron__content {
+      flex-basis: 100% !important;
+      max-width: 60rem;
+      width: max-content;
+    }
+
+    .jumbotron__media {
+      order: 10 !important;
+      width: 40rem;
+      flex-basis: 40rem;
+    }
+    .jumbotron__image {
+      max-height: 30rem;
+    }
+  }
+  @media screen and (max-width: 60em) {
+    font-size: 1.2rem;
+  }
+}
+//===========================================//
