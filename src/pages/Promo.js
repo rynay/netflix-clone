@@ -3,6 +3,8 @@ import { useEffect } from 'react';
 import { setPath } from '../redux/AC';
 import { useRouteMatch } from 'react-router-dom';
 import { PromoHeaderContent } from '../components/PromoHeaderContent';
+import { Jumbotron } from '../components/Jumbotron';
+import { Accordion } from '../components/Accordion';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import * as ROUTES from '../constants/ROUTES';
@@ -23,7 +25,8 @@ const Promo = ({ setPath }) => {
         }>
         <PromoHeaderContent />
       </Header>
-      <main></main>
+      <Jumbotron />
+      <Accordion />
       <Footer />
     </>
   );
