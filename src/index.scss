@@ -186,6 +186,11 @@ img {
     margin-top: 0.5em;
     font-size: 2.8rem;
   }
+}
+//===========================================//
+
+//===========================================//
+.CTA {
   &__text {
     margin-top: 1.5em;
     font-size: 2rem;
@@ -342,10 +347,13 @@ img {
 
 //===========================================//
 .accordion {
-  width: 80rem;
-  max-width: 90vw;
+  &__container {
+    width: 80rem;
+    max-width: 90vw;
+    margin: 0 auto;
+  }
+  border-bottom: 1rem solid #222;
   padding: 5em 0;
-  margin: 0 auto;
   color: #fff;
 
   &__title {

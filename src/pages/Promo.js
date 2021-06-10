@@ -10,6 +10,8 @@ import { Footer } from '../components/Footer';
 import * as ROUTES from '../constants/ROUTES';
 import { Link } from 'react-router-dom';
 
+const promoFooterContent = [];
+
 const Promo = ({ setPath }) => {
   const { path } = useRouteMatch();
   useEffect(() => {
@@ -27,7 +29,7 @@ const Promo = ({ setPath }) => {
       </Header>
       <Jumbotron />
       <Accordion />
-      <Footer />
+      <Footer content={promoFooterContent} />
     </>
   );
 };
