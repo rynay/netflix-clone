@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import faqs from '../../fixtures/faqs.json';
 
-export const Accordion = () => {
+export const Accordion = ({ children }) => {
   const [selected, setSelected] = useState(null);
   const handleSelect = (id) => {
     setSelected(selected !== id ? id : null);
@@ -38,6 +38,7 @@ export const Accordion = () => {
             <p className="accordion__answer">{faq.body}</p>
           </section>
         ))}
+        {children}
       </div>
     </article>
   );

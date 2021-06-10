@@ -9,6 +9,7 @@ import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import * as ROUTES from '../constants/ROUTES';
 import { Link } from 'react-router-dom';
+import { CTA } from '../components/CTA';
 
 const promoFooterContent = [];
 
@@ -28,7 +29,9 @@ const Promo = ({ setPath }) => {
         <PromoHeaderContent />
       </Header>
       <Jumbotron />
-      <Accordion />
+      <Accordion>
+        <CTA />
+      </Accordion>
       <Footer content={promoFooterContent} />
     </>
   );
