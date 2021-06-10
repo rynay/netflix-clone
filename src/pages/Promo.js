@@ -11,7 +11,17 @@ import * as ROUTES from '../constants/ROUTES';
 import { Link } from 'react-router-dom';
 import { CTA } from '../components/CTA';
 
-const promoFooterContent = [];
+const promoFooterContent = {
+  title: 'Questions? Call',
+  phoneNumber: '8-800-100-9668',
+  links: [
+    ['FAQ', 'Investor Relations', 'Privacy', 'Speed Test'],
+    ['Help Center', 'Jobs', 'Cookie Preferences', 'Legal Notices'],
+    ['Account', 'Ways to Watch', 'Corporate Information', 'Netflix Originals'],
+    ['Media Center', 'Terms of Use', 'Contact Us'],
+  ],
+  copy: 'Netflix Russia',
+};
 
 const Promo = ({ setPath }) => {
   const { path } = useRouteMatch();

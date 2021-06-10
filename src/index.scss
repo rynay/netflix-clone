@@ -419,3 +419,44 @@ img {
   }
 }
 //===========================================//
+
+//===========================================//
+.footer {
+  color: #666;
+  font-size: 1.4rem;
+  padding: 3em 0;
+  background-color: rgba(#000, 0.25);
+  &__title {
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+
+    .footer__link {
+      padding-left: 0.5em;
+    }
+  }
+  &__container {
+    width: 90rem;
+    max-width: 90vw;
+    margin: 0 auto;
+  }
+
+  &__linksContainer {
+    padding: 2em 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+
+  &__link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding: 0.5em 0;
+
+    &:hover,
+    &:focus {
+      text-decoration: underline;
+    }
+  }
+}
+//===========================================//
