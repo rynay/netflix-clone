@@ -8,6 +8,7 @@ body {
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 1.6rem;
   overflow-y: scroll;
+  overflow-x: hidden;
   background-color: #000;
 }
 *,
@@ -269,7 +270,7 @@ img {
   &__title {
     line-height: 1;
     font-size: 2.7em;
-    padding: 1em 0;
+    padding: 0 0 1em;
   }
   &__text {
     font-size: 1.3em;
@@ -335,6 +336,73 @@ img {
   }
   @media screen and (max-width: 60em) {
     font-size: 1.2rem;
+  }
+}
+//===========================================//
+
+//===========================================//
+.accordion {
+  width: 80rem;
+  max-width: 90vw;
+  padding: 5em 0;
+  margin: 0 auto;
+  color: #fff;
+
+  &__title {
+    font-size: 3em;
+    text-align: center;
+    margin-bottom: 1em;
+  }
+
+  &__item {
+    margin-bottom: 1rem;
+
+    &--open {
+      .accordion__answer {
+        padding: 0.75em 1em;
+        max-height: max-content;
+      }
+      .accordion__question {
+        .icon {
+          transform: rotate(0);
+        }
+      }
+    }
+  }
+
+  &__question {
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    border: 0;
+    background-color: #333;
+    padding: 0.75em 1em;
+    font-size: 1.8em;
+    font-weight: normal;
+    border-bottom: 0.2rem solid #000;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .icon {
+      svg {
+        height: 2rem;
+        width: 2rem;
+      }
+      transform: rotate(45deg);
+      fill: #fff;
+      transition: transform 0.15s;
+    }
+  }
+
+  &__answer {
+    max-height: 0px;
+    padding: 0 1em;
+    overflow: hidden;
+    background-color: #333;
+    font-size: 1.8em;
+    transition: all 0.5s cubic-bezier(0, 1, 0, 1);
   }
 }
 //===========================================//
