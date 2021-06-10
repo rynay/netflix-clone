@@ -8,7 +8,6 @@ export const CTA = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
   };
-  const id = Math.random().toString();
 
   return (
     <section className="CTA">
@@ -23,7 +22,7 @@ export const CTA = () => {
           setPlaceholder={setPlaceholder}
           label={'Email address'}
           type={'email'}
-          id={'email' + id}
+          id={'email'}
         />
         <button className="CTA__button button button--large button--form">
           <span className="text">Get Started</span>

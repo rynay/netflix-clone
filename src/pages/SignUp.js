@@ -2,10 +2,22 @@ import { connect } from 'react-redux';
 import { useEffect } from 'react';
 import { setPath } from '../redux/AC';
 import { useRouteMatch } from 'react-router-dom';
-import { SignUpForm } from '../components/SignUpForm';
+import { Form } from '../components/Form';
 import { Header } from '../components/Header';
 import * as ROUTES from '../constants/ROUTES';
 import { Link } from 'react-router-dom';
+import { Footer } from '../components/Footer';
+
+const footerSignUpContent = {
+  title: 'Questions? Call',
+  phoneNumber: '8-800-100-9668',
+  links: [
+    ['FAQ', 'Cookie Preferences'],
+    ['Help Center', 'Corporate Information'],
+    ['Terms of Use'],
+    ['Privacy'],
+  ],
+};
 
 const SignUp = ({ setPath }) => {
   const { path } = useRouteMatch();
@@ -15,12 +27,13 @@ const SignUp = ({ setPath }) => {
   return (
     <>
       <Header
+        footer={<Footer content={footerSignUpContent} />}
         navigation={
           <Link className="button" to={ROUTES.SIGNIN}>
             Sign In
           </Link>
         }>
-        <SignUpForm />
+        <Form type="sign-up" />
       </Header>
     </>
   );

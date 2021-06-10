@@ -7,6 +7,7 @@ export const InputField = ({
   type,
   id,
 }) => {
+  const randomId = Math.random().toString();
   return (
     <div className="field">
       <input
@@ -16,10 +17,10 @@ export const InputField = ({
         onBlur={() => setPlaceholder(label)}
         value={input}
         type={type}
-        id={id}
+        id={id + randomId}
         onChange={(e) => setInput(e.target.value)}
       />
-      <label htmlFor={id} className="field__label">
+      <label htmlFor={id + randomId} className="field__label">
         {label}
       </label>
     </div>

@@ -12,7 +12,7 @@ const Header = ({ navigation, children, footer }) => {
         />
       </div>
       <div aria-hidden className="header__overlay"></div>
-      <div className="container">
+      <div className="header__container">
         <header className="header__top">
           <div className="header__logoContainer">
             <img src="/images/misc/logo.svg" alt="Netflix Logo" />

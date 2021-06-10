@@ -72,17 +72,6 @@ img {
     }
   }
 }
-
-.header .container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-.header .header__content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
 //===========================================//
 .field {
   display: flex;
@@ -96,7 +85,7 @@ img {
     font-size: 1.8rem;
     position: absolute;
     top: 50%;
-    left: 1rem;
+    left: 0.4em;
     transform: translateY(-50%);
     color: #999;
     font-weight: bold;
@@ -104,25 +93,46 @@ img {
     transition: opacity 0.05s, top 0.25s, left 0.25s, transform 0.25s,
       font-size 0.25s, color 0.25s;
   }
-  &__input:focus + &__label {
+  &__input:focus + &__label,
+  &__input:not([value='']) + &__label {
     color: #666;
     font-size: 1.4rem;
     opacity: 1;
-    top: 0.75rem;
-    left: 0.75rem;
+    top: 0.5em;
+    left: 0.5em;
     transform: translateY(0);
   }
 }
 //===========================================//
 
+.header__container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+}
+.header .header__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 //===========================================//
 .header {
-  padding: 1.75em 0;
   position: relative;
   min-height: 100vh;
 
   display: flex;
   flex-direction: column;
+
+  &__content {
+    width: 140rem;
+    max-width: 90vw;
+    margin: 0 auto;
+  }
 
   &__overlay {
     background-image: linear-gradient(
@@ -139,7 +149,7 @@ img {
   }
 
   &__backgroundImageContainer {
-    height: 100vh;
+    height: 100%;
     position: absolute;
     top: 0;
     right: 0;
@@ -154,6 +164,10 @@ img {
   }
 
   &__top {
+    width: 140rem;
+    max-width: 90vw;
+    margin: 0 auto;
+    padding: 1.75em 0;
     display: flex;
     justify-content: space-between;
   }
@@ -195,6 +209,7 @@ img {
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
 
   &__text {
     margin-top: 1.5em;
@@ -425,7 +440,7 @@ img {
   color: #666;
   font-size: 1.4rem;
   padding: 3em 0;
-  background-color: rgba(#000, 0.25);
+  background-color: rgba(#000, 0.75);
   &__title {
     font-weight: normal;
     display: flex;
@@ -457,6 +472,79 @@ img {
     &:focus {
       text-decoration: underline;
     }
+  }
+}
+//===========================================//
+
+//===========================================//
+.form {
+  max-width: 50rem;
+  margin: 2em auto 3em;
+  border-radius: 0.5rem;
+  background-color: rgba(#000, 0.75);
+  padding: 2em;
+
+  &__link {
+    text-decoration: none;
+    display: inline-block;
+    &--white {
+      display: inline-block;
+      padding: 0 0.5em;
+      color: #fff;
+    }
+    &--blue {
+      color: royalblue;
+    }
+  }
+
+  &__text {
+    color: #666;
+    font-size: 1.6rem;
+
+    &--small {
+      font-size: 1.2rem;
+    }
+  }
+
+  &__title {
+    color: #fff;
+    font-size: 2em;
+  }
+  & > *:not(:last-child) {
+    margin-bottom: 1em;
+  }
+
+  input {
+    background-color: rgba(#444, 0.75);
+    padding: 1.25em 1em 1em;
+    border: 0;
+    font-size: 1.5rem;
+    border-radius: 0.5em;
+    color: #fff;
+  }
+  input:focus + label,
+  input:not([value='']) + label {
+    color: #888 !important;
+    font-size: 1.2rem !important;
+    opacity: 1;
+    top: 0.3em !important;
+    left: 1em !important;
+    transform: translateY(0);
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    & > *:not(:last-child) {
+      margin-bottom: 1em;
+    }
+  }
+  &__button {
+    margin-top: 2em;
+    margin-bottom: 1em;
+    padding: 0.75em;
+    font-size: 1.6rem;
+    font-weight: bold;
   }
 }
 //===========================================//
