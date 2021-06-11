@@ -2,10 +2,11 @@ export const InputField = ({
   input,
   placeholder,
   setInput,
-  setPlaceholder,
   label,
   type,
   id,
+  focus,
+  blur,
 }) => {
   const randomId = Math.random().toString();
   return (
@@ -13,8 +14,8 @@ export const InputField = ({
       <input
         className="field__input"
         placeholder={placeholder}
-        onFocus={() => setPlaceholder('')}
-        onBlur={() => setPlaceholder(label)}
+        onFocus={focus}
+        onBlur={() => blur(label)}
         value={input}
         type={type}
         id={id + randomId}

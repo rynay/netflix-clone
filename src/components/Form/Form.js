@@ -5,78 +5,114 @@ import { Link } from 'react-router-dom';
 const signInFields = {
   email: {
     id: 1,
-    placeholder: 'Email or phone number',
-    label: 'Email or phone number',
+    placeholder: 'Email address',
+    label: 'Email address',
     value: '',
     type: 'text',
-    warning: 'Please enter a valid email or phone number.',
-    isWarningShown: false,
   },
   password: {
     id: 2,
     placeholder: 'Password',
     label: 'Password',
     value: '',
-    type: 'text',
-    warning: 'Your password must contain between 4 and 60 characters.',
-    isWarningShown: false,
+    type: 'password',
   },
 };
 const signUpFields = {
   email: {
+    name: 'email',
     id: 1,
-    placeholder: 'Email or phone number',
-    label: 'Email or phone number',
+    placeholder: 'Email address',
+    label: 'Email address',
     value: '',
     type: 'text',
   },
   password: {
+    name: 'password',
     id: 2,
     placeholder: 'Password',
     label: 'Password',
     value: '',
-    type: 'text',
+    type: 'password',
   },
   repeatPassword: {
+    name: 'repeatPassword',
     id: 2,
     placeholder: 'Repeat password',
     label: 'Repeat password',
     value: '',
-    type: 'text',
+    type: 'password',
   },
 };
 
 export const Form = ({ type }) => {
   const fields = type === 'sign-in' ? signInFields : signUpFields;
+  const [error, setError] = useState('');
+  const [isValid, setIsValid] = useState();
   const [state, setState] = useState(fields);
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (type === 'sign-up') {
+      setError('');
+      if (!/^.+@.+$/.test(state.email.value)) {
+        setError('Please enter a valid Email address');
+        setIsValid(false);
+      } else if (
+        state.password.value.length < 6 ||
+        state.password.value.length > 40
+      ) {
+        setError('Password must be minimum 6 and maximum 40 characters long.');
+        setIsValid(false);
+      } else if (state.password.value !== state.repeatPassword.value) {
+        setError("Passwords don't match");
+        setIsValid(false);
+      } else {
+        setIsValid(false);
+        setError('');
+      }
+    }
   };
   return (
     <section className="form">
       <h2 className="form__title">Sign In</h2>
       <form className="form__form" onSubmit={handleSubmit}>
+        <div
+          className={`form__warning ${
+            isValid === false ? 'form__warning--open' : ''
+          }`}>
+          {error}
+        </div>
         {Object.keys(fields).map((key) => (
-          <InputField
-            key={key}
-            input={state[key].value}
-            placeholder={state[key].placeholder}
-            setInput={(value) =>
-              setState((state) => ({
-                ...state,
-                [key]: { ...state[key], value },
-              }))
-            }
-            setPlaceholder={(placeholder) =>
-              setState((state) => ({
-                ...state,
-                [key]: { ...state[key], placeholder },
-              }))
-            }
-            label={state[key].label}
-            type={state[key].type}
-            id={state[key].id}
-          />
+          <>
+            <InputField
+              key={key}
+              input={state[key].value}
+              placeholder={state[key].placeholder}
+              setInput={(value) => {
+                setIsValid(true);
+                setError('');
+                setState((state) => ({
+                  ...state,
+                  [key]: { ...state[key], value },
+                }));
+              }}
+              label={state[key].label}
+              type={state[key].type}
+              id={state[key].id}
+              focus={() => {
+                setState((state) => ({
+                  ...state,
+                  [key]: { ...state[key], placeholder: '' },
+                }));
+              }}
+              blur={(placeholder) => {
+                setState((state) => ({
+                  ...state,
+                  [key]: { ...state[key], placeholder },
+                }));
+              }}
+            />
+          </>
         ))}
         <button className="form__button button">
           {type === 'sign-in' ? 'Sign In' : 'Sign Up'}
@@ -92,11 +128,11 @@ export const Form = ({ type }) => {
       </p>
       <p className="form__text form__text--small">
         This page is protected by Google reCAPTCHA to ensure you're not a bot.
-        <div>
+        <span>
           <a className="form__link form__link--blue" href="#1">
             Learn more.
           </a>
-        </div>
+        </span>
       </p>
     </section>
   );

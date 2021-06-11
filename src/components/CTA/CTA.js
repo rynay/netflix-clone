@@ -23,6 +23,8 @@ export const CTA = () => {
           label={'Email address'}
           type={'email'}
           id={'email'}
+          focus={() => setPlaceholder('')}
+          blur={(value) => setPlaceholder(value)}
         />
         <button className="CTA__button button button--large button--form">
           <span className="text">Get Started</span>

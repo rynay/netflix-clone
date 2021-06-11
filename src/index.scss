@@ -478,11 +478,28 @@ img {
 
 //===========================================//
 .form {
-  max-width: 50rem;
+  max-width: 45rem;
   margin: 2em auto 3em;
   border-radius: 0.5rem;
   background-color: rgba(#000, 0.75);
-  padding: 2em;
+  padding: 4em 4em 6em;
+
+  &__warning {
+    padding: 0 1em;
+    color: orange;
+    font-weight: bold;
+    border: 0.1rem solid transparent;
+    border-radius: 0.25em;
+    height: 0;
+
+    transition: all 0.2s;
+    &--open {
+      border: 0.1rem solid orange;
+      padding: 1em;
+      margin: 1em 0;
+      height: max-content;
+    }
+  }
 
   &__link {
     text-decoration: none;
@@ -501,6 +518,10 @@ img {
     color: #666;
     font-size: 1.6rem;
 
+    span {
+      display: block;
+    }
+
     &--small {
       font-size: 1.2rem;
     }
@@ -514,13 +535,19 @@ img {
     margin-bottom: 1em;
   }
 
+  input::placeholder {
+    color: #999;
+  }
+
   input {
-    background-color: rgba(#444, 0.75);
+    background-color: rgba(#333, 1);
     padding: 1.25em 1em 1em;
     border: 0;
     font-size: 1.5rem;
     border-radius: 0.5em;
     color: #fff;
+
+    border-bottom: 0.2em solid #333;
   }
   input:focus + label,
   input:not([value='']) + label {
