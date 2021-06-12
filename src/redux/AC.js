@@ -53,7 +53,7 @@ export const signIn =
   (dispatch) => {
     dispatch(setError(null));
     try {
-      firebase.auth().signInWithEmailAndPassword(email, password);
+      return firebase.auth().signInWithEmailAndPassword(email, password);
     } catch (error) {
       dispatch(setError(error));
     }
@@ -63,10 +63,11 @@ export const signUp =
   ({ email, password, name }) =>
   (dispatch) => {
     dispatch(setError(null));
-    firebase
+    return firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
-      .then((user) => {
+      .then(() => {
+        const user = firebase.auth().currentUser;
         user
           .updateProfile({
             displayName: name,
@@ -77,7 +78,7 @@ export const signUp =
           });
       })
       .catch((error) => {
-        dispatch(setError(error));
+        dispatch(setError(error.message));
       });
   };
 

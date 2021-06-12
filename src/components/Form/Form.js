@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import { InputField } from '../InputField';
 import { Link } from 'react-router-dom';
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
+import { connect } from 'react-redux';
+import * as AC from '../../redux/AC';
+import { useHistory } from 'react-router-dom';
 
-export const Form = ({ type, signUpEmail }) => {
+const Form = ({ type, signUpEmail, signIn, signUp, authError }) => {
+  const history = useHistory();
   const signInFields = useMemo(
     () => ({
       email: {
@@ -65,8 +69,22 @@ export const Form = ({ type, signUpEmail }) => {
   const [isValid, setIsValid] = useState();
   const [state, setState] = useState(fields);
 
+  useEffect(() => {
+    setError(authError);
+  }, [authError]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (
+      Object.keys(state)
+        .map((key) => state[key].value)
+        .some((field) => !field.trim())
+    ) {
+      setError('Please fill all the fields');
+      setIsValid(false);
+      return;
+    }
+
     if (type === 'sign-up') {
       setError('');
       if (!/^.+@.+$/.test(state.email.value)) {
@@ -84,12 +102,42 @@ export const Form = ({ type, signUpEmail }) => {
       } else {
         setIsValid(false);
         setError('');
+        signUp({
+          email: state.email.value,
+          name: state.name.value,
+          password: state.password.value,
+        }).then(() => {
+          history.push('/');
+        });
+      }
+    } else if (type === 'sign-in') {
+      setError('');
+      if (!/^.+@.+$/.test(state.email.value)) {
+        setError('Please enter a valid Email address');
+        setIsValid(false);
+      } else if (
+        state.password.value.length < 6 ||
+        state.password.value.length > 40
+      ) {
+        setError('Password must be minimum 6 and maximum 40 characters long.');
+        setIsValid(false);
+      } else {
+        setIsValid(false);
+        setError('');
+        signIn({
+          email: state.email.value,
+          password: state.password.value,
+        }).then(() => {
+          history.push('/');
+        });
       }
     }
   };
   return (
     <section className="form">
-      <h2 className="form__title">Sign In</h2>
+      <h2 className="form__title">
+        {type === 'sign-in' ? 'Sign In' : 'Sign Up'}
+      </h2>
       <form className="form__form" onSubmit={handleSubmit}>
         <div
           className={`form__warning ${
@@ -152,3 +200,13 @@ export const Form = ({ type, signUpEmail }) => {
     </section>
   );
 };
+
+const mapStateToProps = (state) => ({
+  authError: state.error,
+});
+const mapDispatchToProps = (dispatch) => ({
+  signIn: (data) => dispatch(AC.signIn(data)),
+  signUp: (data) => dispatch(AC.signUp(data)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form);
