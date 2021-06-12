@@ -19,11 +19,7 @@ const footerSignInContent = {
   ],
 };
 
-const SignIn = ({ setPath }) => {
-  const { path } = useRouteMatch();
-  useLayoutEffect(() => {
-    setPath(path);
-  }, [path]);
+const SignIn = () => {
   return (
     <>
       <Header
@@ -49,8 +45,4 @@ const SignIn = ({ setPath }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  setPath: (path) => dispatch(setPath(path)),
-});
-
-export default connect(null, mapDispatchToProps)(SignIn);
+export default SignIn;

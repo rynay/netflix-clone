@@ -1,7 +1,3 @@
-import { connect } from 'react-redux';
-import { useLayoutEffect } from 'react';
-import { setPath } from '../redux/AC';
-import { useRouteMatch } from 'react-router-dom';
 import { PromoHeaderContent } from '../components/PromoHeaderContent';
 import { Jumbotron } from '../components/Jumbotron';
 import { Accordion } from '../components/Accordion';
@@ -23,11 +19,7 @@ const promoFooterContent = {
   copy: 'Netflix Russia',
 };
 
-const Promo = ({ setPath }) => {
-  const { path } = useRouteMatch();
-  useLayoutEffect(() => {
-    setPath(path);
-  }, [path]);
+const Promo = () => {
   return (
     <>
       <Header
@@ -57,8 +49,4 @@ const Promo = ({ setPath }) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  setPath: (path) => dispatch(setPath(path)),
-});
-
-export default connect(null, mapDispatchToProps)(Promo);
+export default Promo;

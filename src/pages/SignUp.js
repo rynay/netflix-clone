@@ -1,7 +1,4 @@
 import { connect } from 'react-redux';
-import { useLayoutEffect } from 'react';
-import { setPath } from '../redux/AC';
-import { useRouteMatch } from 'react-router-dom';
 import { Form } from '../components/Form';
 import { Header } from '../components/Header';
 import * as ROUTES from '../constants/ROUTES';
@@ -19,11 +16,7 @@ const footerSignUpContent = {
   ],
 };
 
-const SignUp = ({ setPath, signUpEmail }) => {
-  const { path } = useRouteMatch();
-  useLayoutEffect(() => {
-    setPath(path);
-  }, [path]);
+const SignUp = ({ signUpEmail }) => {
   return (
     <>
       <Header
@@ -53,8 +46,4 @@ const mapStateToProps = (state) => ({
   signUpEmail: state.signUpEmail,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  setPath: (path) => dispatch(setPath(path)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps)(SignUp);

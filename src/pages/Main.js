@@ -1,7 +1,3 @@
-import { connect } from 'react-redux';
-import { useLayoutEffect } from 'react';
-import { setPath } from '../redux/AC';
-import { useRouteMatch } from 'react-router-dom';
 import { MainHeaderContent } from '../components/MainHeaderContent';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
@@ -19,11 +15,7 @@ const mainFooterContent = {
   copy: 'Netflix Russia',
 };
 
-const Main = ({ setPath, currentWatcher, user }) => {
-  const { path } = useRouteMatch();
-  useLayoutEffect(() => {
-    setPath(path);
-  }, [path]);
+const Main = ({ currentWatcher }) => {
   return (
     <>
       {currentWatcher && (
@@ -48,12 +40,4 @@ const Main = ({ setPath, currentWatcher, user }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  user: state.user,
-  currentWatcher: state.currentWatcher,
-});
-const mapDispatchToProps = (dispatch) => ({
-  setPath: (path) => dispatch(setPath(path)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default Main;
