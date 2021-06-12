@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { setPath } from '../redux/AC';
 import { useRouteMatch } from 'react-router-dom';
 import { MainHeaderContent } from '../components/MainHeaderContent';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
+import { WatcherChoosing } from '../components/WatcherChoosing';
 
 const mainFooterContent = {
   title: 'Questions? Call',
@@ -20,16 +21,29 @@ const mainFooterContent = {
 
 const Main = ({ setPath, currentWatcher, user }) => {
   const { path } = useRouteMatch();
-  useEffect(() => {
+  useLayoutEffect(() => {
     setPath(path);
   }, [path]);
   return (
     <>
-      <Header navigation={<div>TODO</div>}>
-        <MainHeaderContent />
-      </Header>
-      <main></main>
-      <Footer content={mainFooterContent} />
+      {currentWatcher && (
+        <>
+          <Header
+            bg={<img aria-hidden src="/images/misc/joker1.jpg" alt="" />}
+            navigation={<div>TODO</div>}>
+            <MainHeaderContent />
+          </Header>
+          <main></main>
+          <Footer content={mainFooterContent} />
+        </>
+      )}
+      {!currentWatcher && (
+        <>
+          <Header>
+            <WatcherChoosing />
+          </Header>
+        </>
+      )}
     </>
   );
 };

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { useEffect } from 'react';
+import { useLayoutEffect } from 'react';
 import { setPath } from '../redux/AC';
 import { useRouteMatch } from 'react-router-dom';
 import { Form } from '../components/Form';
@@ -21,12 +21,22 @@ const footerSignUpContent = {
 
 const SignUp = ({ setPath, signUpEmail }) => {
   const { path } = useRouteMatch();
-  useEffect(() => {
+  useLayoutEffect(() => {
     setPath(path);
   }, [path]);
   return (
     <>
       <Header
+        bg={
+          <img
+            aria-hidden
+            src="/images/misc/home-bg-small.jpg"
+            srcset="/images/misc/home-bg-small.jpg 1000w, 
+        /images/misc/home-bg-medium.jpg 1500w, 
+        /images/misc/home-bg-large.jpg 1800w"
+            alt=""
+          />
+        }
         footer={<Footer content={footerSignUpContent} />}
         navigation={
           <Link className="button" to={ROUTES.SIGNIN}>

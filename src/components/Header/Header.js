@@ -1,16 +1,7 @@
-const Header = ({ navigation, children, footer }) => {
+const Header = ({ navigation, children, footer, bg }) => {
   return (
     <div className="header">
-      <div className="header__backgroundImageContainer">
-        <img
-          aria-hidden
-          src="/images/misc/home-bg-small.jpg"
-          srcset="/images/misc/home-bg-small.jpg 1000w, 
-        /images/misc/home-bg-medium.jpg 1500w, 
-        /images/misc/home-bg-large.jpg 1800w"
-          alt=""
-        />
-      </div>
+      <div className="header__backgroundImageContainer">{bg}</div>
       <div aria-hidden className="header__overlay"></div>
       <div className="header__container">
         <header className="header__top">

@@ -4,13 +4,12 @@ import * as TYPES from './TYPES';
 export const init = () => (dispatch) => {
   let listener2 = () => {};
   let listener3 = () => {};
+  const localUser = JSON.parse(localStorage.getItem('user'));
+  dispatch(setUser(localUser));
   const listener1 = firebase.auth().onAuthStateChanged((authUser) => {
-    const localUser = JSON.parse(localStorage.getItem('user'));
     if (authUser) {
       dispatch(setUser(authUser));
       localStorage.setItem('user', JSON.stringify(authUser));
-    } else if (localUser) {
-      dispatch(setUser(localUser));
     } else {
       dispatch(setUser(null));
       localStorage.removeItem('user');

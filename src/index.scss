@@ -575,3 +575,42 @@ img {
   }
 }
 //===========================================//
+
+//===========================================//
+.watcherChoosing {
+  &__title {
+    color: #fff;
+    text-align: center;
+    font-size: 3em;
+  }
+  &__usersContainer {
+    margin-top: 3em;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__user {
+    cursor: pointer;
+    &:hover,
+    &:focus {
+      img {
+        border: 0.3rem solid #fff;
+      }
+    }
+    background-color: transparent;
+    border: 0;
+    color: #999;
+    font-weight: bold;
+    max-width: 15rem;
+
+    img {
+      border: 0.3rem solid transparent;
+      transition: border 0.1s;
+    }
+
+    div {
+      white-space: nowrap;
+    }
+  }
+}
+//===========================================//
