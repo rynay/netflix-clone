@@ -72,6 +72,45 @@ img {
     }
   }
 }
+
+//===========================================//
+.spinner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__loading {
+    display: block;
+    height: 15rem;
+    width: 15rem;
+    animation: spin 0.5s ease-in-out infinite;
+  }
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  &__image {
+    display: block;
+    height: 5rem;
+    width: 5rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+//===========================================//
+
 //===========================================//
 .field {
   display: flex;

@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import * as AC from '../../redux/AC';
 
 const WatcherChoosing = ({ setCurrentWatcher, user }) => {
-  console.log(user);
   return (
     <section className="watcherChoosing">
       <h1 className="watcherChoosing__title">Who's watching?</h1>
