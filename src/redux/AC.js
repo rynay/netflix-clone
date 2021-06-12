@@ -1,9 +1,8 @@
+import { getDefaultNormalizer } from '@testing-library/react';
 import { firebase } from '../lib/firebase';
 import * as TYPES from './TYPES';
 
 export const init = () => (dispatch) => {
-  let listener2 = () => {};
-  let listener3 = () => {};
   const localUser = JSON.parse(localStorage.getItem('user'));
   dispatch(setUser(localUser));
   const listener1 = firebase.auth().onAuthStateChanged((authUser) => {
@@ -14,47 +13,52 @@ export const init = () => (dispatch) => {
       dispatch(setUser(null));
       localStorage.removeItem('user');
     }
-    if (authUser || localUser) {
-      listener2 = firebase
-        .firestore()
-        .collection('films')
-        .onSnapshot((snapshot) => {
-          dispatch(
-            setData({
-              films: snapshot.docs.map((doc) => ({
-                ...doc.data,
-                docId: doc.id,
-              })),
-            })
-          );
-        });
-      listener3 = firebase
-        .firestore()
-        .collection('series')
-        .onSnapshot((snapshot) => {
-          dispatch(
-            setData({
-              series: snapshot.docs.map((doc) => ({
-                ...doc.data,
-                docId: doc.id,
-              })),
-            })
-          );
-        });
-    }
   });
 
   return () => {
     listener1();
-    listener2();
-    listener3();
   };
 };
 
-export const setCurrentWatcher = (payload) => ({
-  type: TYPES.SET_CURRENT_WATCHER,
-  payload,
-});
+export const setCurrentWatcher = (user) => (dispatch, getState) => {
+  dispatch({
+    type: TYPES.SET_CURRENT_WATCHER,
+    payload: user,
+  });
+  dispatch(getData());
+};
+const getData = () => (dispatch) => {
+  const listener1 = firebase
+    .firestore()
+    .collection('films')
+    .onSnapshot((snapshot) => {
+      dispatch(
+        setData({
+          films: snapshot.docs.map((doc) => ({
+            ...doc.data,
+            docId: doc.id,
+          })),
+        })
+      );
+    });
+  const listener2 = firebase
+    .firestore()
+    .collection('series')
+    .onSnapshot((snapshot) => {
+      dispatch(
+        setData({
+          series: snapshot.docs.map((doc) => ({
+            ...doc.data,
+            docId: doc.id,
+          })),
+        })
+      );
+    });
+  return () => {
+    listener1();
+    listener2();
+  };
+};
 
 export const logout = () => {
   localStorage.removeItem('user');

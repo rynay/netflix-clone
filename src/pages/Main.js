@@ -2,6 +2,7 @@ import { MainHeaderContent } from '../components/MainHeaderContent';
 import { Header } from '../components/Header';
 import { Footer } from '../components/Footer';
 import { WatcherChoosing } from '../components/WatcherChoosing';
+import { connect } from 'react-redux';
 
 const mainFooterContent = {
   title: 'Questions? Call',
@@ -40,4 +41,8 @@ const Main = ({ currentWatcher }) => {
   );
 };
 
-export default Main;
+const mapStateToProps = (state) => ({
+  currentWatcher: state.currentWatcher,
+});
+
+export default connect(mapStateToProps)(Main);
