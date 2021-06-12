@@ -6,7 +6,7 @@ import * as ROUTES from './constants/ROUTES';
 import { SignIn, SignUp, Promo, Main } from './pages';
 import { setSignUpEmail } from './redux/AC';
 
-const App = ({ user, init, path, setSignUpEmail }) => {
+const App = ({ user, init, path, setSignUpEmail, setAuthError }) => {
   const history = useHistory();
 
   useEffect(() => {
@@ -18,6 +18,7 @@ const App = ({ user, init, path, setSignUpEmail }) => {
     if (path !== '/promo' || path !== '/sign-up') {
       setSignUpEmail('');
     }
+    // setAuthError('');
   }, [path]);
 
   useEffect(() => {

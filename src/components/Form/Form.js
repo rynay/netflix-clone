@@ -100,7 +100,7 @@ const Form = ({ type, signUpEmail, signIn, signUp, authError }) => {
         setError("Passwords don't match");
         setIsValid(false);
       } else {
-        setIsValid(false);
+        setIsValid(true);
         setError('');
         signUp({
           email: state.email.value,
@@ -122,7 +122,7 @@ const Form = ({ type, signUpEmail, signIn, signUp, authError }) => {
         setError('Password must be minimum 6 and maximum 40 characters long.');
         setIsValid(false);
       } else {
-        setIsValid(false);
+        setIsValid(true);
         setError('');
         signIn({
           email: state.email.value,
