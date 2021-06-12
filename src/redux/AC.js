@@ -60,9 +60,14 @@ const getData = () => (dispatch) => {
   };
 };
 
-export const logout = () => {
+export const logout = () => (dispatch) => {
   localStorage.removeItem('user');
-  firebase.auth().signOut();
+  firebase
+    .auth()
+    .signOut()
+    .then(() => {
+      dispatch(setCurrentWatcher(null));
+    });
 };
 
 export const signIn =

@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import * as AC from '../../redux/AC';
-import { FaSearch } from 'react-icons/fa';
+import { FaSearch, FaSignOutAlt, FaSortDown } from 'react-icons/fa';
 
 const MainHeaderNavigation = ({ currentWatcher, logout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,6 +19,7 @@ const MainHeaderNavigation = ({ currentWatcher, logout }) => {
         setIsMenuOpen(false);
       }
       if (isSearchBarOpen) {
+        if (input !== '') return;
         setIsSearchBarOpen(false);
       }
     };
@@ -27,6 +28,7 @@ const MainHeaderNavigation = ({ currentWatcher, logout }) => {
         setIsMenuOpen(false);
       }
       if (e.key === 'Escape' && isSearchBarOpen) {
+        if (input !== '') return;
         setIsSearchBarOpen(false);
       }
     };
@@ -37,7 +39,7 @@ const MainHeaderNavigation = ({ currentWatcher, logout }) => {
       document.body.removeEventListener('click', handleClick);
       document.body.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [input, isMenuOpen, isSearchBarOpen]);
   return (
     <div className="mainHeader">
       <div className="mainHeader__group mainHeader__group--left">
@@ -99,18 +101,22 @@ const MainHeaderNavigation = ({ currentWatcher, logout }) => {
           }}
           aria-hidden>
           <img src={currentWatcher.photoURL} alt="" />
-          Toggle
+          <FaSortDown />
         </button>
         <div
+          onMouseOver={() => {
+            setIsMenuOpen(true);
+          }}
           onClick={(e) => e.stopPropagation()}
           className={`mainHeader__menu ${
             isMenuOpen ? 'mainHeader__menu--open' : ''
           }`}>
-          <a href="#1">
+          <a href="#1" className="mainHeader__profile">
             <img src={currentWatcher.photoURL} alt="" />
             <span>{currentWatcher.displayName}</span>
           </a>
           <button
+            className="mainHeader__logout"
             onClick={logout}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
@@ -118,7 +124,8 @@ const MainHeaderNavigation = ({ currentWatcher, logout }) => {
                 // .then(history.push('/promo'));
               }
             }}>
-            Logout
+            <FaSignOutAlt />
+            <span>Logout</span>
           </button>
         </div>
       </div>
