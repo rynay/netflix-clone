@@ -2,7 +2,7 @@ import { firebase } from '../lib/firebase';
 import * as TYPES from './TYPES';
 
 export const init = () => (dispatch) => {
-  const listener = firebase.auth().onAuthStateChanged((authUser) => {
+  const listener1 = firebase.auth().onAuthStateChanged((authUser) => {
     const localUser = JSON.parse(localStorage.getItem('user'));
     if (authUser && !localUser) {
       dispatch(setUser(authUser));
@@ -15,7 +15,32 @@ export const init = () => (dispatch) => {
     }
   });
 
-  return () => listener();
+  const listener2 = firebase
+    .firestore()
+    .collection('films')
+    .onSnapshot((snapshot) => {
+      dispatch(
+        setData({
+          films: snapshot.docs.map((doc) => ({ ...doc.data, docId: doc.id })),
+        })
+      );
+    });
+  const listener3 = firebase
+    .firestore()
+    .collection('series')
+    .onSnapshot((snapshot) => {
+      dispatch(
+        setData({
+          series: snapshot.docs.map((doc) => ({ ...doc.data, docId: doc.id })),
+        })
+      );
+    });
+
+  return () => {
+    listener1();
+    listener2();
+    listener3();
+  };
 };
 
 export const logout = () => {
@@ -56,6 +81,11 @@ export const signUp =
       });
   };
 
+const setData = (payload) => ({ type: TYPES.SET_DATA, payload });
 const setUser = (payload) => ({ type: TYPES.SET_USER, payload });
 const setError = (payload) => ({ type: TYPES.SET_ERROR, payload });
 export const setPath = (payload) => ({ type: TYPES.SET_PATH, payload });
+export const setSignUpEmail = (payload) => ({
+  type: TYPES.SET_SIGN_UP_EMAIL,
+  payload,
+});

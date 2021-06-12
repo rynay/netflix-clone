@@ -4,14 +4,21 @@ import { init } from './redux/AC';
 import { useHistory, Switch, Route } from 'react-router-dom';
 import * as ROUTES from './constants/ROUTES';
 import { SignIn, SignUp, Promo, Main } from './pages';
+import { setSignUpEmail } from './redux/AC';
 
-const App = ({ user, init, path }) => {
+const App = ({ user, init, path, setSignUpEmail }) => {
   const history = useHistory();
 
   useEffect(() => {
     const cleanUp = init();
     return () => cleanUp();
   }, []);
+
+  useEffect(() => {
+    if (path !== '/promo' || path !== '/sign-up') {
+      setSignUpEmail('');
+    }
+  }, [path]);
 
   useEffect(() => {
     if (!path) return;
@@ -47,6 +54,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   init: () => dispatch(init()),
+  setSignUpEmail: (email) => dispatch(setSignUpEmail(email)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

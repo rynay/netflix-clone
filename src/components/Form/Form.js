@@ -1,55 +1,70 @@
 import { useState } from 'react';
 import { InputField } from '../InputField';
 import { Link } from 'react-router-dom';
+import { useMemo } from 'react';
 
-const signInFields = {
-  email: {
-    id: 1,
-    placeholder: 'Email address',
-    label: 'Email address',
-    value: '',
-    type: 'text',
-  },
-  password: {
-    id: 2,
-    placeholder: 'Password',
-    label: 'Password',
-    value: '',
-    type: 'password',
-  },
-};
-const signUpFields = {
-  email: {
-    name: 'email',
-    id: 1,
-    placeholder: 'Email address',
-    label: 'Email address',
-    value: '',
-    type: 'text',
-  },
-  password: {
-    name: 'password',
-    id: 2,
-    placeholder: 'Password',
-    label: 'Password',
-    value: '',
-    type: 'password',
-  },
-  repeatPassword: {
-    name: 'repeatPassword',
-    id: 2,
-    placeholder: 'Repeat password',
-    label: 'Repeat password',
-    value: '',
-    type: 'password',
-  },
-};
-
-export const Form = ({ type }) => {
+export const Form = ({ type, signUpEmail }) => {
+  const signInFields = useMemo(
+    () => ({
+      email: {
+        id: 1,
+        placeholder: 'Email address',
+        label: 'Email address',
+        value: '',
+        type: 'text',
+      },
+      password: {
+        id: 2,
+        placeholder: 'Password',
+        label: 'Password',
+        value: '',
+        type: 'password',
+      },
+    }),
+    []
+  );
+  const signUpFields = useMemo(
+    () => ({
+      email: {
+        name: 'email',
+        id: 1,
+        placeholder: 'Email address',
+        label: 'Email address',
+        value: signUpEmail,
+        type: 'text',
+      },
+      name: {
+        name: 'name',
+        id: 1,
+        placeholder: 'Your name',
+        label: 'Your name',
+        value: '',
+        type: 'text',
+      },
+      password: {
+        name: 'password',
+        id: 2,
+        placeholder: 'Password',
+        label: 'Password',
+        value: '',
+        type: 'password',
+      },
+      repeatPassword: {
+        name: 'repeatPassword',
+        id: 2,
+        placeholder: 'Repeat password',
+        label: 'Repeat password',
+        value: '',
+        type: 'password',
+      },
+    }),
+    []
+  );
   const fields = type === 'sign-in' ? signInFields : signUpFields;
   const [error, setError] = useState('');
   const [isValid, setIsValid] = useState();
   const [state, setState] = useState(fields);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (type === 'sign-up') {

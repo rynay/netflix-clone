@@ -1,1 +1,1 @@
-export { CTA } from './CTA';
+export { default as CTA } from './CTA';

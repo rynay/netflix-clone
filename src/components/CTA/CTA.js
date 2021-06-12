@@ -1,12 +1,19 @@
+import { connect } from 'react-redux';
+import * as AC from '../../redux/AC';
 import { useState } from 'react';
 import { FaChevronRight } from 'react-icons/fa';
+import { useHistory } from 'react-router-dom';
 import { InputField } from '../InputField';
 
-export const CTA = () => {
+const CTA = ({ setSignUpEmail }) => {
+  const history = useHistory();
   const [input, setInput] = useState('');
   const [placeholder, setPlaceholder] = useState('Email address');
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!input.trim()) return;
+    setSignUpEmail(input);
+    history.push('/sign-up');
   };
 
   return (
@@ -36,3 +43,11 @@ export const CTA = () => {
     </section>
   );
 };
+
+const mapDispatchToProps = (dispatch) => ({
+  setSignUpEmail: (email) => {
+    dispatch(AC.setSignUpEmail(email));
+  },
+});
+
+export default connect(null, mapDispatchToProps)(CTA);

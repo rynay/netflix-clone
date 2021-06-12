@@ -19,7 +19,7 @@ const footerSignUpContent = {
   ],
 };
 
-const SignUp = ({ setPath }) => {
+const SignUp = ({ setPath, signUpEmail }) => {
   const { path } = useRouteMatch();
   useEffect(() => {
     setPath(path);
@@ -33,14 +33,18 @@ const SignUp = ({ setPath }) => {
             Sign In
           </Link>
         }>
-        <Form type="sign-up" />
+        <Form type="sign-up" signUpEmail={signUpEmail} />
       </Header>
     </>
   );
 };
 
+const mapStateToProps = (state) => ({
+  signUpEmail: state.signUpEmail,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   setPath: (path) => dispatch(setPath(path)),
 });
 
-export default connect(null, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
