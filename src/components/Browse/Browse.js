@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { MainHeaderContent } from '../MainHeaderContent';
 import { Header } from '../Header';
 import { Footer } from '../Footer';
+import { MainHeaderNavigation } from '../MainHeaderNavigation';
 
 const mainFooterContent = {
   title: 'Questions? Call',
@@ -19,7 +20,7 @@ const Browse = ({ data }) => {
     <>
       <Header
         bg={<img aria-hidden src="/images/misc/joker1.jpg" alt="" />}
-        navigation={<div>TODO</div>}>
+        navigation={<MainHeaderNavigation />}>
         <MainHeaderContent />
       </Header>
       <main></main>
