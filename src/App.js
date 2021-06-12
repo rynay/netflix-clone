@@ -4,7 +4,7 @@ import { init } from './redux/AC';
 import { useHistory, Switch, Route } from 'react-router-dom';
 import * as ROUTES from './constants/ROUTES';
 import { SignIn, SignUp, Promo, Main } from './pages';
-import { setSignUpEmail } from './redux/AC';
+import { setSignUpEmail, setError } from './redux/AC';
 
 const App = ({ user, init, path, setSignUpEmail, setAuthError }) => {
   const history = useHistory();
@@ -18,15 +18,20 @@ const App = ({ user, init, path, setSignUpEmail, setAuthError }) => {
     if (path !== '/promo' || path !== '/sign-up') {
       setSignUpEmail('');
     }
-    // setAuthError('');
+    setAuthError('');
   }, [path]);
 
   useEffect(() => {
     if (!path) return;
     if (!user && path === ROUTES.MAIN) history.push(ROUTES.PROMO);
-    if (user && (path === ROUTES.SIGNIN || path === ROUTES.SIGNUP))
+    if (
+      user &&
+      (path === ROUTES.SIGNIN ||
+        path === ROUTES.SIGNUP ||
+        path === ROUTES.PROMO)
+    )
       history.push(ROUTES.MAIN);
-  }, [path]);
+  }, [path, user]);
 
   return (
     <>
@@ -56,6 +61,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   init: () => dispatch(init()),
   setSignUpEmail: (email) => dispatch(setSignUpEmail(email)),
+  setAuthError: () => dispatch(setError(null)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

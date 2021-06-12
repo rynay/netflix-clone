@@ -2,39 +2,48 @@ import { firebase } from '../lib/firebase';
 import * as TYPES from './TYPES';
 
 export const init = () => (dispatch) => {
+  let listener2 = () => {};
+  let listener3 = () => {};
   const listener1 = firebase.auth().onAuthStateChanged((authUser) => {
     const localUser = JSON.parse(localStorage.getItem('user'));
-    if (authUser && !localUser) {
+    if (authUser) {
       dispatch(setUser(authUser));
       localStorage.setItem('user', JSON.stringify(authUser));
-    } else if (!authUser && localUser) {
+    } else if (localUser) {
       dispatch(setUser(localUser));
     } else {
       dispatch(setUser(null));
       localStorage.removeItem('user');
     }
+    if (authUser || localUser) {
+      listener2 = firebase
+        .firestore()
+        .collection('films')
+        .onSnapshot((snapshot) => {
+          dispatch(
+            setData({
+              films: snapshot.docs.map((doc) => ({
+                ...doc.data,
+                docId: doc.id,
+              })),
+            })
+          );
+        });
+      listener3 = firebase
+        .firestore()
+        .collection('series')
+        .onSnapshot((snapshot) => {
+          dispatch(
+            setData({
+              series: snapshot.docs.map((doc) => ({
+                ...doc.data,
+                docId: doc.id,
+              })),
+            })
+          );
+        });
+    }
   });
-
-  const listener2 = firebase
-    .firestore()
-    .collection('films')
-    .onSnapshot((snapshot) => {
-      dispatch(
-        setData({
-          films: snapshot.docs.map((doc) => ({ ...doc.data, docId: doc.id })),
-        })
-      );
-    });
-  const listener3 = firebase
-    .firestore()
-    .collection('series')
-    .onSnapshot((snapshot) => {
-      dispatch(
-        setData({
-          series: snapshot.docs.map((doc) => ({ ...doc.data, docId: doc.id })),
-        })
-      );
-    });
 
   return () => {
     listener1();
@@ -42,6 +51,11 @@ export const init = () => (dispatch) => {
     listener3();
   };
 };
+
+export const setCurrentWatcher = (payload) => ({
+  type: TYPES.SET_CURRENT_WATCHER,
+  payload,
+});
 
 export const logout = () => {
   localStorage.removeItem('user');
@@ -84,7 +98,7 @@ export const signUp =
 
 const setData = (payload) => ({ type: TYPES.SET_DATA, payload });
 const setUser = (payload) => ({ type: TYPES.SET_USER, payload });
-const setError = (payload) => ({ type: TYPES.SET_ERROR, payload });
+export const setError = (payload) => ({ type: TYPES.SET_ERROR, payload });
 export const setPath = (payload) => ({ type: TYPES.SET_PATH, payload });
 export const setSignUpEmail = (payload) => ({
   type: TYPES.SET_SIGN_UP_EMAIL,

@@ -18,7 +18,7 @@ const mainFooterContent = {
   copy: 'Netflix Russia',
 };
 
-const Main = ({ setPath }) => {
+const Main = ({ setPath, currentWatcher, user }) => {
   const { path } = useRouteMatch();
   useEffect(() => {
     setPath(path);
@@ -34,8 +34,12 @@ const Main = ({ setPath }) => {
   );
 };
 
+const mapStateToProps = (state) => ({
+  user: state.user,
+  currentWatcher: state.currentWatcher,
+});
 const mapDispatchToProps = (dispatch) => ({
   setPath: (path) => dispatch(setPath(path)),
 });
 
-export default connect(null, mapDispatchToProps)(Main);
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
