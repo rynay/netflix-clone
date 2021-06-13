@@ -899,7 +899,8 @@ img {
     &--open {
       transform: scale(1.1);
     }
-    &:hover {
+    &:hover,
+    &--open {
       .mainContent__description {
         opacity: 1;
       }
@@ -920,6 +921,7 @@ img {
 
 //===========================================//
 .preview {
+  min-height: 50rem;
   position: relative;
   &__content {
     color: #fff;

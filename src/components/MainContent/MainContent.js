@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { Preview } from '../Preview';
 
 export const MainContent = ({ content, type }) => {
-  const [target, setTarget] = useState(null);
-  const close = () => setTarget(null);
+  const [target, setTarget] = useState({});
+  const close = () => setTarget({});
   return (
     <article className="mainContent">
       {Object.keys(content).map((key) => (
@@ -11,7 +11,12 @@ export const MainContent = ({ content, type }) => {
           <h2 className="mainContent__title">{key}</h2>
           <div className="mainContent__itemsContainer">
             {content[key].map((item) => (
-              <section className="mainContent__itemContainer">
+              <section
+                className={`mainContent__itemContainer ${
+                  item.id === target.id
+                    ? 'mainContent__itemContainer--open'
+                    : ''
+                }`}>
                 <button
                   onClick={() => setTarget(item)}
                   onKeyDown={(e) => {
@@ -34,7 +39,7 @@ export const MainContent = ({ content, type }) => {
               </section>
             ))}
           </div>
-          {target && content[key].some((item) => item.id === target.id) && (
+          {target.id && content[key].some((item) => item.id === target.id) && (
             <Preview type={type} close={close} content={target} />
           )}
         </section>
