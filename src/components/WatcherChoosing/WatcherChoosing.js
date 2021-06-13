@@ -8,12 +8,10 @@ const WatcherChoosing = ({ setCurrentWatcher, user }) => {
       <div className="watcherChoosing__usersContainer">
         <button
           className="watcherChoosing__user"
-          onClick={() => {
-            setCurrentWatcher(user);
-          }}
+          onClick={() => setCurrentWatcher(user)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
-              setCurrentWatcher(user);
+              return setCurrentWatcher(user);
             }
           }}>
           <img src={user.photoURL} alt="" />

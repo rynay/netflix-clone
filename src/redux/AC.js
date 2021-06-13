@@ -1,4 +1,3 @@
-import { getDefaultNormalizer } from '@testing-library/react';
 import { firebase } from '../lib/firebase';
 import * as TYPES from './TYPES';
 
@@ -20,24 +19,34 @@ export const init = () => (dispatch) => {
   };
 };
 
-export const setCurrentWatcher = (user) => (dispatch, getState) => {
+export const setCurrentWatcher = (user) => (dispatch) => {
   dispatch({
     type: TYPES.SET_CURRENT_WATCHER,
     payload: user,
   });
-  dispatch(getData());
+  const listener = dispatch(getData());
+  return () => {
+    listener();
+  };
 };
 const getData = () => (dispatch) => {
   const listener1 = firebase
     .firestore()
     .collection('films')
     .onSnapshot((snapshot) => {
+      const films = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+        docId: doc.id,
+      }));
       dispatch(
         setData({
-          films: snapshot.docs.map((doc) => ({
-            ...doc.data,
-            docId: doc.id,
-          })),
+          films: {
+            Children: films.filter((item) => item.genre === 'children'),
+            Romance: films.filter((item) => item.genre === 'romance'),
+            Drama: films.filter((item) => item.genre === 'drama'),
+            Suspense: films.filter((item) => item.genre === 'suspense'),
+            Thriller: films.filter((item) => item.genre === 'thriller'),
+          },
         })
       );
     });
@@ -45,12 +54,21 @@ const getData = () => (dispatch) => {
     .firestore()
     .collection('series')
     .onSnapshot((snapshot) => {
+      const series = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+        docId: doc.id,
+      }));
       dispatch(
         setData({
-          series: snapshot.docs.map((doc) => ({
-            ...doc.data,
-            docId: doc.id,
-          })),
+          series: {
+            Documentaries: series.filter(
+              (item) => item.genre === 'documentaries'
+            ),
+            Comedies: series.filter((item) => item.genre === 'comedies'),
+            Crime: series.filter((item) => item.genre === 'crime'),
+            Children: series.filter((item) => item.genre === 'children'),
+            'Feel Good': series.filter((item) => item.genre === 'feel-good'),
+          },
         })
       );
     });
@@ -62,11 +80,11 @@ const getData = () => (dispatch) => {
 
 export const logout = () => (dispatch) => {
   localStorage.removeItem('user');
-  firebase
+  return firebase
     .auth()
     .signOut()
     .then(() => {
-      dispatch(setCurrentWatcher(null));
+      return dispatch(setCurrentWatcher(null));
     });
 };
 

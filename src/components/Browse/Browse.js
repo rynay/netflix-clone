@@ -3,6 +3,8 @@ import { MainHeaderContent } from '../MainHeaderContent';
 import { Header } from '../Header';
 import { Footer } from '../Footer';
 import { MainHeaderNavigation } from '../MainHeaderNavigation';
+import { Switch, Route } from 'react-router-dom';
+import { MainContent } from '../MainContent';
 
 const mainFooterContent = {
   title: 'Questions? Call',
@@ -23,7 +25,19 @@ const Browse = ({ data }) => {
         navigation={<MainHeaderNavigation />}>
         <MainHeaderContent />
       </Header>
-      <main></main>
+      <main>
+        <Switch>
+          <Route exact path="/browse">
+            <MainContent type="series" content={data.series} />
+          </Route>
+          <Route path="/browse/films">
+            <MainContent type="films" content={data.films} />
+          </Route>
+          <Route path="/browse/series">
+            <MainContent type="series" content={data.series} />
+          </Route>
+        </Switch>
+      </main>
       <Footer content={mainFooterContent} />
     </>
   );

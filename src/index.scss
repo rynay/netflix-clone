@@ -857,3 +857,48 @@ img {
   }
 }
 //===========================================//
+
+//===========================================//
+.mainContent {
+  margin-top: -25rem;
+  position: relative;
+  z-index: 10;
+  &__slider {
+    display: flex;
+    flex-direction: column;
+    padding: 2em 0.5em;
+  }
+  &__title {
+    color: #999;
+    font-size: 1.3em;
+  }
+  &__itemsContainer {
+    padding: 1em 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    align-items: center;
+    column-gap: 1em;
+  }
+  &__itemContainer {
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.1s;
+    &:hover,
+    &:focus,
+    &--open {
+      transform: scale(1.1);
+    }
+  }
+  &__description {
+    min-height: 40%;
+    padding: 0.5em;
+    background-color: rgba(#000, 0.75);
+    font-size: 1.3rem;
+    color: #ccc;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+//===========================================//

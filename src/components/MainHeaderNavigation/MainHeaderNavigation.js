@@ -47,13 +47,13 @@ const MainHeaderNavigation = ({ currentWatcher, logout }) => {
           <NavLink
             className="mainHeader__navLink"
             activeClassName="mainHeader__navLink--active"
-            to="/films">
+            to="/browse/films">
             films
           </NavLink>
           <NavLink
             className="mainHeader__navLink"
             activeClassName="mainHeader__navLink--active"
-            to="/series">
+            to="/browse/series">
             series
           </NavLink>
         </nav>
@@ -120,7 +120,7 @@ const MainHeaderNavigation = ({ currentWatcher, logout }) => {
             onClick={logout}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                logout();
+                return logout();
                 // .then(history.push('/promo'));
               }
             }}>

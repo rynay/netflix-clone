@@ -28,17 +28,17 @@ const App = ({ user, init }) => {
           <SignUp />
         </ProtectedRoute>
         <ProtectedRoute
-          path={ROUTES.PROMO}
-          alternative={ROUTES.MAIN}
-          condition={!user}>
-          <Promo />
-        </ProtectedRoute>
-        <ProtectedRoute
-          exact
           path={ROUTES.MAIN}
           alternative={ROUTES.PROMO}
           condition={user}>
           <Main />
+        </ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path={ROUTES.PROMO}
+          alternative={ROUTES.MAIN}
+          condition={!user}>
+          <Promo />
         </ProtectedRoute>
       </Switch>
     </>
