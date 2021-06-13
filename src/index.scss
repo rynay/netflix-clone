@@ -74,6 +74,58 @@ img {
 }
 
 //===========================================//
+.modal {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(#000, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__content {
+    position: relative;
+  }
+  &__close {
+    cursor: pointer;
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    padding: 0.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 0.3rem solid #000;
+    background-color: #ffffff;
+    border-radius: 50%;
+    transition: border-color 0.2s;
+
+    svg {
+      transform: rotate(45deg);
+      fill: #000;
+      height: 2rem;
+      width: 2rem;
+      transition: fill 0.2s;
+    }
+
+    &:hover {
+      border-color: $main-red;
+      svg {
+        fill: $main-red;
+      }
+    }
+  }
+  &__video {
+    width: 80rem;
+    max-width: 90vw;
+  }
+}
+//===========================================//
+
+//===========================================//
 .spinner {
   position: absolute;
   top: 0;
@@ -952,6 +1004,7 @@ img {
     align-self: flex-start;
   }
   &__play {
+    cursor: pointer;
     align-self: flex-start;
     background-color: $main-red;
     color: #fff;
@@ -959,6 +1012,12 @@ img {
     border-radius: 0.25em;
     padding: 0.5em 1.5em;
     font-size: 2rem;
+    transition: all 0.2s;
+
+    &:hover {
+      color: #333;
+      background-color: #eee;
+    }
   }
 
   &__close {

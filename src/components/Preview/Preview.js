@@ -1,13 +1,12 @@
 import { useRef, useEffect } from 'react';
 import { FaPlus } from 'react-icons/fa';
 
-export const Preview = ({ close, content, type }) => {
-  console.log(content);
+export const Preview = ({ close, content, type, openModal }) => {
   const ref = useRef();
   useEffect(() => {
     if (!ref) return;
     ref.current.focus();
-  }, []);
+  }, [ref]);
   return (
     <section className="preview">
       <img
@@ -21,7 +20,16 @@ export const Preview = ({ close, content, type }) => {
         <p className="preview__age" aria-label="minimum age">
           {content.maturity}+
         </p>
-        <button className="preview__play">Play</button>
+        <button
+          onClick={openModal}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              openModal();
+            }
+          }}
+          className="preview__play">
+          Play
+        </button>
       </div>
       <button
         onClick={close}

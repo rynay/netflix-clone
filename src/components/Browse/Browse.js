@@ -17,7 +17,7 @@ const mainFooterContent = {
   ],
   copy: 'Netflix Russia',
 };
-const Browse = ({ data }) => {
+const Browse = ({ data, openModal, isModalOpen }) => {
   return (
     <>
       <Header
@@ -28,13 +28,28 @@ const Browse = ({ data }) => {
       <main>
         <Switch>
           <Route exact path="/browse">
-            <MainContent type="series" content={data.series} />
+            <MainContent
+              isModalOpen={isModalOpen}
+              openModal={openModal}
+              type="series"
+              content={data.series}
+            />
           </Route>
           <Route path="/browse/films">
-            <MainContent type="films" content={data.films} />
+            <MainContent
+              isModalOpen={isModalOpen}
+              openModal={openModal}
+              type="films"
+              content={data.films}
+            />
           </Route>
           <Route path="/browse/series">
-            <MainContent type="series" content={data.series} />
+            <MainContent
+              isModalOpen={isModalOpen}
+              openModal={openModal}
+              type="series"
+              content={data.series}
+            />
           </Route>
         </Switch>
       </main>

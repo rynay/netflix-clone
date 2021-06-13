@@ -1,12 +1,14 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { init } from './redux/AC';
 import * as ROUTES from './constants/ROUTES';
 import { Switch } from 'react-router-dom';
 import { SignIn, SignUp, Promo, Main } from './pages';
 import { ProtectedRoute } from './components/ProtectedRoute';
+import { Modal } from './components/Modal';
 
 const App = ({ user, init }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   useEffect(() => {
     const cleanUp = init();
     return () => cleanUp();
@@ -31,7 +33,10 @@ const App = ({ user, init }) => {
           path={ROUTES.MAIN}
           alternative={ROUTES.PROMO}
           condition={user}>
-          <Main />
+          <Main
+            isModalOpen={isModalOpen}
+            openModal={() => setIsModalOpen(true)}
+          />
         </ProtectedRoute>
         <ProtectedRoute
           exact
@@ -41,6 +46,7 @@ const App = ({ user, init }) => {
           <Promo />
         </ProtectedRoute>
       </Switch>
+      {isModalOpen && <Modal close={() => setIsModalOpen(false)} />}
     </>
   );
 };

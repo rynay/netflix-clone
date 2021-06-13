@@ -1,9 +1,23 @@
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { Preview } from '../Preview';
 
-export const MainContent = ({ content, type }) => {
+export const MainContent = ({ content, type, openModal, isModalOpen }) => {
   const [target, setTarget] = useState({});
   const close = () => setTarget({});
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (isModalOpen) return;
+      if (e.key === 'Escape') {
+        console.log('MainContent');
+        setTarget({});
+      }
+    };
+    document.body.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.body.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isModalOpen]);
   return (
     <article className="mainContent">
       {Object.keys(content).map((key) => (
@@ -18,7 +32,9 @@ export const MainContent = ({ content, type }) => {
                     : ''
                 }`}>
                 <button
-                  onClick={() => setTarget(item)}
+                  onClick={() => {
+                    setTarget(item);
+                  }}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       setTarget(item);
@@ -31,7 +47,9 @@ export const MainContent = ({ content, type }) => {
                   />
                 </button>
                 <div
-                  onClick={() => setTarget(item)}
+                  onClick={() => {
+                    setTarget(item);
+                  }}
                   className="mainContent__description">
                   <h3>{item.title}</h3>
                   <p>{item.description}</p>
@@ -40,7 +58,12 @@ export const MainContent = ({ content, type }) => {
             ))}
           </div>
           {target.id && content[key].some((item) => item.id === target.id) && (
-            <Preview type={type} close={close} content={target} />
+            <Preview
+              openModal={openModal}
+              type={type}
+              close={close}
+              content={target}
+            />
           )}
         </section>
       ))}
