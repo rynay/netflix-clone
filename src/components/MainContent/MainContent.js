@@ -1,4 +1,9 @@
+import { useState } from 'react';
+import { Preview } from '../Preview';
+
 export const MainContent = ({ content, type }) => {
+  const [target, setTarget] = useState(null);
+  const close = () => setTarget(null);
   return (
     <article className="mainContent">
       {Object.keys(content).map((key) => (
@@ -7,19 +12,31 @@ export const MainContent = ({ content, type }) => {
           <div className="mainContent__itemsContainer">
             {content[key].map((item) => (
               <section className="mainContent__itemContainer">
-                <button className="mainContent__imageContainer">
+                <button
+                  onClick={() => setTarget(item)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      setTarget(item);
+                    }
+                  }}
+                  className="mainContent__imageContainer">
                   <img
                     src={`/images/${type}/${item.genre}/${item.slug}/small.jpg`}
                     alt={item.title}
                   />
                 </button>
-                <div className="mainContent__description">
+                <div
+                  onClick={() => setTarget(item)}
+                  className="mainContent__description">
                   <h3>{item.title}</h3>
                   <p>{item.description}</p>
                 </div>
               </section>
             ))}
           </div>
+          {target && content[key].some((item) => item.id === target.id) && (
+            <Preview type={type} close={close} content={target} />
+          )}
         </section>
       ))}
     </article>

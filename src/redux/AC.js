@@ -33,7 +33,8 @@ const getData = () => (dispatch) => {
   const listener1 = firebase
     .firestore()
     .collection('films')
-    .onSnapshot((snapshot) => {
+    .get()
+    .then((snapshot) => {
       const films = snapshot.docs.map((doc) => ({
         ...doc.data(),
         docId: doc.id,
@@ -53,7 +54,8 @@ const getData = () => (dispatch) => {
   const listener2 = firebase
     .firestore()
     .collection('series')
-    .onSnapshot((snapshot) => {
+    .get()
+    .then((snapshot) => {
       const series = snapshot.docs.map((doc) => ({
         ...doc.data(),
         docId: doc.id,
