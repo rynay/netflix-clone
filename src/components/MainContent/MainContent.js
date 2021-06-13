@@ -6,18 +6,18 @@ export const MainContent = ({ content, type }) => {
           <h2 className="mainContent__title">{key}</h2>
           <div className="mainContent__itemsContainer">
             {content[key].map((item) => (
-              <div className="mainContent__itemContainer">
-                <div className="mainContent__imageContainer">
+              <section className="mainContent__itemContainer">
+                <button className="mainContent__imageContainer">
                   <img
                     src={`/images/${type}/${item.genre}/${item.slug}/small.jpg`}
                     alt={item.title}
                   />
-                </div>
+                </button>
                 <div className="mainContent__description">
                   <h3>{item.title}</h3>
                   <p>{item.description}</p>
                 </div>
-              </div>
+              </section>
             ))}
           </div>
         </section>

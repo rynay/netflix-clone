@@ -879,17 +879,8 @@ img {
     align-items: center;
     column-gap: 1em;
   }
-  &__itemContainer {
-    cursor: pointer;
-    position: relative;
-    transition: transform 0.1s;
-    &:hover,
-    &:focus,
-    &--open {
-      transform: scale(1.1);
-    }
-  }
   &__description {
+    opacity: 0;
     min-height: 40%;
     padding: 0.5em;
     background-color: rgba(#000, 0.75);
@@ -899,6 +890,32 @@ img {
     left: 0;
     right: 0;
     bottom: 0;
+    transition: opacity 0.25s;
+  }
+  &__itemContainer {
+    position: relative;
+    transition: transform 0.1s;
+    &:hover,
+    &--open {
+      transform: scale(1.1);
+    }
+    &:hover {
+      .mainContent__description {
+        opacity: 1;
+      }
+    }
+  }
+  &__imageContainer {
+    cursor: pointer;
+    border: 0;
+    background-color: transparent;
+    &:focus {
+      transform: scale(1.1);
+      & + .mainContent__description {
+        opacity: 1;
+        transform: scale(1.1);
+      }
+    }
   }
 }
 //===========================================//
