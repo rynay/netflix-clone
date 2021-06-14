@@ -1031,6 +1031,10 @@ img {
 .preview {
   min-height: 50rem;
   position: relative;
+  @media screen and (max-width: 60em) {
+    font-size: 1.4rem;
+    min-height: 25rem;
+  }
   &__content {
     color: #fff;
     position: absolute;
@@ -1040,6 +1044,11 @@ img {
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
+    @media screen and (max-width: 60em) {
+      top: 0;
+      padding-top: 2em;
+      transform: translateY(0);
+    }
 
     & > *:not(:last-child) {
       margin-bottom: 2rem;
@@ -1047,10 +1056,17 @@ img {
   }
   &__title {
     font-size: 4em;
+    @media screen and (max-width: 60em) {
+      font-size: 2em;
+    }
   }
   &__description {
+    text-shadow: 0.2rem 0.2rem 0.15rem #000;
     width: 50rem;
     max-width: 90vw;
+    @media screen and (max-width: 60em) {
+      max-width: 88vw;
+    }
   }
 
   &__age {
@@ -1058,6 +1074,9 @@ img {
     background-color: green;
     border-radius: 50rem;
     align-self: flex-start;
+    @media screen and (max-width: 60em) {
+      order: -1;
+    }
   }
   &__play {
     cursor: pointer;
@@ -1069,6 +1088,11 @@ img {
     padding: 0.5em 1.5em;
     font-size: 2rem;
     transition: all 0.2s;
+    @media screen and (max-width: 60em) {
+      order: -2;
+      margin-bottom: 1em;
+      font-size: 1.5rem;
+    }
 
     &:hover {
       color: #333;
@@ -1077,6 +1101,7 @@ img {
   }
 
   &__close {
+    z-index: 10;
     cursor: pointer;
     position: absolute;
     top: 1em;
