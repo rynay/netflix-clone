@@ -708,6 +708,9 @@ img {
 
 //===========================================//
 .watcherChoosing {
+  @media screen and (max-width: 60em) {
+    font-size: 1.2rem;
+  }
   &__title {
     color: #fff;
     text-align: center;
@@ -727,11 +730,20 @@ img {
         border: 0.3rem solid #fff;
       }
     }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background-color: transparent;
     border: 0;
     color: #999;
     font-weight: bold;
     max-width: 15rem;
+    @media screen and (max-width: 60em) {
+      max-width: 7rem;
+      & > * {
+        margin-bottom: 0.75rem;
+      }
+    }
 
     img {
       border: 0.3rem solid transparent;
