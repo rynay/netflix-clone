@@ -24,7 +24,7 @@ const SignUp = ({ signUpEmail }) => {
           <img
             aria-hidden
             src="/images/misc/home-bg-small.jpg"
-            srcset="/images/misc/home-bg-small.jpg 1000w, 
+            srcSet="/images/misc/home-bg-small.jpg 1000w, 
         /images/misc/home-bg-medium.jpg 1500w, 
         /images/misc/home-bg-large.jpg 1800w"
             alt=""

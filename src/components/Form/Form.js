@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 import { InputField } from '../InputField';
 import { Link } from 'react-router-dom';
 import { useMemo, useEffect } from 'react';
@@ -146,9 +146,8 @@ const Form = ({ type, signUpEmail, signIn, signUp, authError }) => {
           {error}
         </div>
         {Object.keys(fields).map((key) => (
-          <>
+          <Fragment key={key}>
             <InputField
-              key={key}
               input={state[key].value}
               placeholder={state[key].placeholder}
               setInput={(value) => {
@@ -175,7 +174,7 @@ const Form = ({ type, signUpEmail, signIn, signUp, authError }) => {
                 }));
               }}
             />
-          </>
+          </Fragment>
         ))}
         <button className="form__button button">
           {type === 'sign-in' ? 'Sign In' : 'Sign Up'}

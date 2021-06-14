@@ -1,5 +1,4 @@
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useEffect, useState, Fragment } from 'react';
 import { Preview } from '../Preview';
 
 export const MainContent = ({ content, type, openModal, isModalOpen }) => {
@@ -30,7 +29,7 @@ export const MainContent = ({ content, type, openModal, isModalOpen }) => {
     <article className="mainContent">
       {content &&
         Object.keys(content).map((key) => (
-          <>
+          <Fragment key={key}>
             {content[key].length > 0 && (
               <section className="mainContent__slider">
                 <h2 className="mainContent__title">{key}</h2>
@@ -80,7 +79,7 @@ export const MainContent = ({ content, type, openModal, isModalOpen }) => {
                   )}
               </section>
             )}
-          </>
+          </Fragment>
         ))}
     </article>
   );
