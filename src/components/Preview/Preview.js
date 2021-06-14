@@ -8,7 +8,7 @@ export const Preview = ({ close, content, type, openModal }) => {
     ref.current.focus();
   }, [ref]);
   return (
-    <section className="preview">
+    <section onClick={(e) => e.stopPropagation()} className="preview">
       <img
         className="preview__background"
         src={`/images/${type}/${content.genre}/${content.slug}/large.jpg`}

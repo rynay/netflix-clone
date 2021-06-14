@@ -13,11 +13,19 @@ export const MainContent = ({ content, type, openModal, isModalOpen }) => {
         setTarget({});
       }
     };
+    const handleClick = () => {
+      if (isModalOpen) return;
+      if (target.id) {
+        setTarget({});
+      }
+    };
     document.body.addEventListener('keydown', handleKeyDown);
+    document.body.addEventListener('click', handleClick);
     return () => {
       document.body.removeEventListener('keydown', handleKeyDown);
+      document.body.removeEventListener('click', handleClick);
     };
-  }, [isModalOpen]);
+  }, [isModalOpen, target]);
   return (
     <article className="mainContent">
       {Object.keys(content).map((key) => (
@@ -26,6 +34,7 @@ export const MainContent = ({ content, type, openModal, isModalOpen }) => {
           <div className="mainContent__itemsContainer">
             {content[key].map((item) => (
               <section
+                onClick={(e) => e.stopPropagation()}
                 className={`mainContent__itemContainer ${
                   item.id === target.id
                     ? 'mainContent__itemContainer--open'
