@@ -1,4 +1,4 @@
-const MainHeaderContent = () => {
+const MainHeaderContent = ({ openModal }) => {
   return (
     <section className="mainHeaderContent">
       <h2 className="mainHeaderContent__title">Watch Joker Now</h2>
@@ -8,7 +8,16 @@ const MainHeaderContent = () => {
         one he paints for his day job as a clown, and the guise he projects in a
         futile attempt to feel like he's part of the world around him.
       </p>
-      <button className="mainHeaderContent__button">Play</button>
+      <button
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            openModal();
+          }
+        }}
+        onClick={openModal}
+        className="mainHeaderContent__button">
+        Play
+      </button>
     </section>
   );
 };

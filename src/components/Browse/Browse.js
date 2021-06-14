@@ -23,18 +23,18 @@ const Browse = ({ data, openModal, isModalOpen }) => {
       <Header
         bg={<img aria-hidden src="/images/misc/joker1.jpg" alt="" />}
         navigation={<MainHeaderNavigation />}>
-        <MainHeaderContent />
+        <MainHeaderContent openModal={openModal} />
       </Header>
       <main>
         <Switch>
-          <Route exact path="/browse">
+          {/* <Route exact path="/browse">
             <MainContent
               isModalOpen={isModalOpen}
               openModal={openModal}
-              type="series"
-              content={data.series}
+              type="films"
+              content={{ ...data.films }}
             />
-          </Route>
+          </Route> */}
           <Route path="/browse/films">
             <MainContent
               isModalOpen={isModalOpen}

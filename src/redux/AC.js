@@ -9,6 +9,7 @@ export const init = () => (dispatch) => {
       dispatch(setUser(authUser));
       localStorage.setItem('user', JSON.stringify(authUser));
     } else {
+      dispatch(setData({}));
       dispatch(setUser(null));
       localStorage.removeItem('user');
     }
@@ -24,6 +25,10 @@ export const setCurrentWatcher = (user) => (dispatch) => {
     type: TYPES.SET_CURRENT_WATCHER,
     payload: user,
   });
+  if (!user) {
+    dispatch(setData({}));
+    return;
+  }
   const listener = dispatch(getData());
   return () => {
     listener();
@@ -40,7 +45,7 @@ const getData = () => (dispatch) => {
         docId: doc.id,
       }));
       dispatch(
-        setData({
+        updateData({
           films: {
             Children: films.filter((item) => item.genre === 'children'),
             Romance: films.filter((item) => item.genre === 'romance'),
@@ -61,7 +66,7 @@ const getData = () => (dispatch) => {
         docId: doc.id,
       }));
       dispatch(
-        setData({
+        updateData({
           series: {
             Documentaries: series.filter(
               (item) => item.genre === 'documentaries'
@@ -82,6 +87,7 @@ const getData = () => (dispatch) => {
 
 export const logout = () => (dispatch) => {
   localStorage.removeItem('user');
+  dispatch(setData({}));
   return firebase
     .auth()
     .signOut()
@@ -125,6 +131,7 @@ export const signUp =
   };
 
 const setData = (payload) => ({ type: TYPES.SET_DATA, payload });
+const updateData = (payload) => ({ type: TYPES.UPDATE_DATA, payload });
 const setUser = (payload) => ({ type: TYPES.SET_USER, payload });
 export const setError = (payload) => ({ type: TYPES.SET_ERROR, payload });
 export const setPath = (payload) => ({ type: TYPES.SET_PATH, payload });
