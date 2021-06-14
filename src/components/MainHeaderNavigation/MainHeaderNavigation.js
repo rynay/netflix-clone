@@ -9,6 +9,7 @@ const MainHeaderNavigation = ({ currentWatcher, logout, search }) => {
   const [isSearchBarOpen, setIsSearchBarOpen] = useState(false);
   const [input, setInput] = useState('');
   const searchRef = useRef();
+
   useEffect(() => {
     if (input.trim().length >= 3) {
       search(input.trim());
@@ -16,16 +17,18 @@ const MainHeaderNavigation = ({ currentWatcher, logout, search }) => {
       search();
     }
   }, [input]);
+
   useEffect(() => {
     if (!isSearchBarOpen) return;
     searchRef.current.focus();
   }, [isSearchBarOpen]);
+
   useEffect(() => {
     const handleClick = () => {
       if (isMenuOpen) {
         setIsMenuOpen(false);
       }
-      if (isSearchBarOpen) {
+      if (isSearchBarOpen && !input.trim().length) {
         setIsSearchBarOpen(false);
       }
     };
@@ -33,7 +36,7 @@ const MainHeaderNavigation = ({ currentWatcher, logout, search }) => {
       if (e.key === 'Escape' && isMenuOpen) {
         setIsMenuOpen(false);
       }
-      if (e.key === 'Escape' && isSearchBarOpen) {
+      if (e.key === 'Escape' && isSearchBarOpen && !input.trim().length) {
         setIsSearchBarOpen(false);
       }
     };
@@ -45,6 +48,7 @@ const MainHeaderNavigation = ({ currentWatcher, logout, search }) => {
       document.body.removeEventListener('keydown', handleKeyDown);
     };
   }, [input, isMenuOpen, isSearchBarOpen]);
+
   return (
     <div className="mainHeader">
       <div className="mainHeader__group mainHeader__group--left">
@@ -69,10 +73,12 @@ const MainHeaderNavigation = ({ currentWatcher, logout, search }) => {
             className="mainHeader__searchButton"
             onClick={(e) => {
               e.stopPropagation();
+              if (input.trim().length) return;
               setIsSearchBarOpen((state) => !state);
             }}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
+                if (input.trim().length) return;
                 setIsSearchBarOpen((state) => !state);
               }
             }}
@@ -80,6 +86,7 @@ const MainHeaderNavigation = ({ currentWatcher, logout, search }) => {
             <FaSearch />
           </button>
           <input
+            onClick={(e) => e.stopPropagation()}
             ref={searchRef}
             className={`mainHeader__search ${
               isSearchBarOpen ? 'mainHeader__search--open' : ''

@@ -910,6 +910,16 @@ img {
 }
 //===========================================//
 
+.browse {
+  &__warning {
+    font-size: 3em;
+    color: #fff;
+    text-align: center;
+    position: relative;
+    z-index: 99999999;
+  }
+}
+
 //===========================================//
 .mainContent {
   position: relative;

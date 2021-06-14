@@ -42,6 +42,17 @@ const Browse = ({
       <main className="browse-main">
         <Switch>
           <Route exact path="/browse">
+            {filteredData &&
+              filteredData.films &&
+              filteredData.series &&
+              Object.keys(filteredData.films).filter(
+                (key) => filteredData.films[key].length > 0
+              ).length === 0 &&
+              Object.keys(filteredData.series).filter(
+                (key) => filteredData.series[key].length > 0
+              ).length === 0 && (
+                <h2 className="browse__warning">No Results Found</h2>
+              )}
             <MainContent
               isModalOpen={isModalOpen}
               openModal={openModal}
@@ -56,6 +67,13 @@ const Browse = ({
             />
           </Route>
           <Route path="/browse/films">
+            {filteredData &&
+              filteredData.films &&
+              Object.keys(filteredData.films).filter(
+                (key) => filteredData.films[key].length > 0
+              ).length === 0 && (
+                <h2 className="browse__warning">No Results Found</h2>
+              )}
             <MainContent
               isModalOpen={isModalOpen}
               openModal={openModal}
@@ -64,6 +82,13 @@ const Browse = ({
             />
           </Route>
           <Route path="/browse/series">
+            {filteredData &&
+              filteredData.series &&
+              Object.keys(filteredData.series).filter(
+                (key) => filteredData.series[key].length > 0
+              ).length === 0 && (
+                <h2 className="browse__warning">No Results Found</h2>
+              )}
             <MainContent
               isModalOpen={isModalOpen}
               openModal={openModal}
