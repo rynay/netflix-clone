@@ -5,6 +5,8 @@ html {
   box-sizing: border-box;
 }
 body {
+  padding: 0;
+  margin: 0;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   font-size: 1.6rem;
   overflow-y: scroll;
@@ -307,6 +309,7 @@ img {
 
 //===========================================//
 .CTA {
+  max-width: 90vw;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -328,7 +331,7 @@ img {
   }
 
   &__form {
-    max-width: 93vw;
+    max-width: 90vw;
     margin: 1em auto 0;
     color: #333;
     display: flex;
@@ -480,9 +483,16 @@ img {
 
 //===========================================//
 .accordion {
+  @media screen and (max-width: 60em) {
+    font-size: 1.3rem;
+  }
   &__container {
     width: 80rem;
-    max-width: 90vw;
+    max-width: 100vw;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin: 0 auto;
   }
   border-bottom: 1rem solid #222;
@@ -517,7 +527,7 @@ img {
     text-align: left;
     border: 0;
     background-color: #333;
-    padding: 0.75em 1em;
+    padding: 0.75em 1.5em;
     font-size: 1.8em;
     font-weight: normal;
     border-bottom: 0.2rem solid #000;
@@ -554,6 +564,9 @@ img {
   font-size: 1.4rem;
   padding: 3em 0;
   background-color: rgba(#000, 0.75);
+  @media screen and (max-width: 60em) {
+    font-size: 1.4rem;
+  }
   &__title {
     font-weight: normal;
     display: flex;
@@ -573,6 +586,10 @@ img {
     padding: 2em 0;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 2em;
+    @media screen and (max-width: 60em) {
+      grid-template-columns: 1fr 1fr;
+    }
   }
 
   &__link {
