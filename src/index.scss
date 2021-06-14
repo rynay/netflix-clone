@@ -170,7 +170,7 @@ img {
   &__input {
     flex: 1;
     padding: 1.5em 0.75rem 1.25em;
-    font-size: 1.8rem;
+    font-size: 1.2em;
   }
   &__label {
     font-size: 1.8rem;
@@ -287,16 +287,20 @@ img {
 
   text-align: center;
 
+  @media screen and (max-width: 60em) {
+    font-size: 1rem;
+  }
+
   &__title {
     line-height: 1.1;
-    font-size: 7rem;
+    font-size: 5em;
     max-width: 80rem;
     margin: 0 auto;
   }
 
   &__subtitle {
     margin-top: 0.5em;
-    font-size: 2.8rem;
+    font-size: 2em;
   }
 }
 //===========================================//
@@ -309,14 +313,23 @@ img {
   align-items: center;
   text-align: center;
 
+  @media screen and (max-width: 60em) {
+    font-size: 1.4rem;
+  }
+
+  &__button {
+    white-space: nowrap;
+  }
+
   &__text {
     margin-top: 1.5em;
-    font-size: 2rem;
+    font-size: 1.2em;
     font-weight: bold;
   }
 
   &__form {
-    margin-top: 1em;
+    max-width: 93vw;
+    margin: 1em auto 0;
     color: #333;
     display: flex;
     border-radius: 0.25em;
@@ -327,6 +340,8 @@ img {
       justify-content: center;
 
       button {
+        border-radius: 0.25em;
+        font-size: 2.3rem;
         margin-top: 1em;
       }
     }
