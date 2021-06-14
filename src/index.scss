@@ -578,7 +578,7 @@ img {
   }
   &__container {
     width: 90rem;
-    max-width: 90vw;
+    max-width: max-content;
     margin: 0 auto;
   }
 
@@ -956,14 +956,25 @@ img {
 .mainContent {
   position: relative;
   z-index: 10;
+  @media screen and (max-width: 82em) {
+    &__description {
+      display: none;
+    }
+  }
   &__slider {
     display: flex;
     flex-direction: column;
     padding: 2em 1em;
+    @media screen and (max-width: 60em) {
+      padding: 1em 0.5em;
+    }
   }
   &__title {
     color: #999;
     font-size: 1.3em;
+    @media screen and (max-width: 60em) {
+      color: #fff;
+    }
   }
   &__itemsContainer {
     padding: 1em 0;
@@ -971,6 +982,10 @@ img {
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     align-items: center;
     column-gap: 1em;
+    @media screen and (max-width: 60em) {
+      padding: 0.5em 0;
+      column-gap: 0.5em;
+    }
   }
   &__description {
     opacity: 0;
@@ -1094,5 +1109,9 @@ img {
 //===========================================//
 
 .browse-main {
-  margin-top: -25rem;
+  margin-top: -35vh;
+
+  @media screen and (max-width: 60em) {
+    margin-top: -25vh;
+  }
 }

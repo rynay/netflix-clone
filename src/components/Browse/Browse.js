@@ -44,12 +44,8 @@ const Browse = ({
           <Route exact path="/browse">
             {filteredData &&
               filteredData.films &&
-              filteredData.series &&
               Object.keys(filteredData.films).filter(
                 (key) => filteredData.films[key].length > 0
-              ).length === 0 &&
-              Object.keys(filteredData.series).filter(
-                (key) => filteredData.series[key].length > 0
               ).length === 0 && (
                 <h2 className="browse__warning">No Results Found</h2>
               )}
@@ -58,12 +54,6 @@ const Browse = ({
               openModal={openModal}
               type="films"
               content={filteredData?.films || formattedData.films}
-            />
-            <MainContent
-              isModalOpen={isModalOpen}
-              openModal={openModal}
-              type="series"
-              content={filteredData?.series || formattedData.series}
             />
           </Route>
           <Route path="/browse/films">
