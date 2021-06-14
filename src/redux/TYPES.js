@@ -1,4 +1,5 @@
 export const SET_USER = 'SET_USER';
+export const UPDATE_USER = 'UPDATE_USER';
 export const SET_ERROR = 'SET_ERROR';
 export const SET_PATH = 'SET_PATH';
 export const SET_SIGN_UP_EMAIL = 'SET_SIGN_UP_EMAIL';

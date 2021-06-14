@@ -14,8 +14,8 @@ const WatcherChoosing = ({ setCurrentWatcher, user }) => {
               return setCurrentWatcher(user);
             }
           }}>
-          <img src={user.photoURL} alt="" />
-          <div>{user.displayName}</div>
+          <img src={user.photoURL || user.photo} alt="" />
+          <div>{user.displayName || user.name}</div>
         </button>
       </div>
     </section>

@@ -129,6 +129,14 @@ export const signUp =
             displayName: name,
             photoURL: `/images/users/${Math.floor(Math.random() * 5) + 1}.png`,
           })
+          .then(() => {
+            dispatch(
+              updateUser({
+                name: name,
+                photo: `/images/users/${Math.floor(Math.random() * 5) + 1}.png`,
+              })
+            );
+          })
           .catch((error) => {
             throw new Error(error);
           });
@@ -140,6 +148,7 @@ export const signUp =
 
 const setData = (payload) => ({ type: TYPES.SET_DATA, payload });
 const updateData = (payload) => ({ type: TYPES.UPDATE_DATA, payload });
+const updateUser = (payload) => ({ type: TYPES.UPDATE_USER, payload });
 const setUser = (payload) => ({ type: TYPES.SET_USER, payload });
 export const setError = (payload) => ({ type: TYPES.SET_ERROR, payload });
 export const setPath = (payload) => ({ type: TYPES.SET_PATH, payload });
