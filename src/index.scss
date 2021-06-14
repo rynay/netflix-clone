@@ -791,6 +791,10 @@ img {
   display: flex;
   justify-content: space-between;
   position: relative;
+  &__nav {
+    display: flex;
+    align-items: center;
+  }
   &__menu {
     opacity: 0;
     max-width: 10rem;
@@ -889,6 +893,9 @@ img {
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    @media screen and (max-width: 45.5em) {
+      display: none;
+    }
   }
   &__search {
     padding: 0;
