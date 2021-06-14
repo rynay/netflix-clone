@@ -5,6 +5,8 @@ import { pathReducer as path } from './pathReducer';
 import { dataReducer as data } from './dataReducer';
 import { signUpEmailReducer as signUpEmail } from './signUpEmailReducer';
 import { currentWatcherReducer as currentWatcher } from './currentWatcherReducer';
+import { filteredDataReducer as filteredData } from './filteredDataReducer';
+import { formattedDataReducer as formattedData } from './formattedDataReducer';
 
 const rootReducer = combineReducers({
   user,
@@ -13,6 +15,8 @@ const rootReducer = combineReducers({
   signUpEmail,
   data,
   currentWatcher,
+  filteredData,
+  formattedData,
 });
 
 export default rootReducer;

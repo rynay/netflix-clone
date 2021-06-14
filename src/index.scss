@@ -912,7 +912,6 @@ img {
 
 //===========================================//
 .mainContent {
-  margin-top: -25rem;
   position: relative;
   z-index: 10;
   &__slider {
@@ -1051,3 +1050,7 @@ img {
   }
 }
 //===========================================//
+
+.browse-main {
+  margin-top: -25rem;
+}

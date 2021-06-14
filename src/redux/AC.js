@@ -10,6 +10,8 @@ export const init = () => (dispatch) => {
       localStorage.setItem('user', JSON.stringify(authUser));
     } else {
       dispatch(setData({}));
+      dispatch(setFormattedData({}));
+      dispatch(setFilteredData({}));
       dispatch(setUser(null));
       localStorage.removeItem('user');
     }
@@ -27,6 +29,8 @@ export const setCurrentWatcher = (user) => (dispatch) => {
   });
   if (!user) {
     dispatch(setData({}));
+    dispatch(setFormattedData({}));
+    dispatch(setFilteredData(null));
     return;
   }
   const listener = dispatch(getData());
@@ -34,7 +38,7 @@ export const setCurrentWatcher = (user) => (dispatch) => {
     listener();
   };
 };
-const getData = () => (dispatch) => {
+export const getData = () => (dispatch) => {
   const listener1 = firebase
     .firestore()
     .collection('films')
@@ -44,8 +48,9 @@ const getData = () => (dispatch) => {
         ...doc.data(),
         docId: doc.id,
       }));
+      dispatch(updateData({ films }));
       dispatch(
-        updateData({
+        updateFormattedData({
           films: {
             Children: films.filter((item) => item.genre === 'children'),
             Romance: films.filter((item) => item.genre === 'romance'),
@@ -65,8 +70,9 @@ const getData = () => (dispatch) => {
         ...doc.data(),
         docId: doc.id,
       }));
+      dispatch(updateData({ series }));
       dispatch(
-        updateData({
+        updateFormattedData({
           series: {
             Documentaries: series.filter(
               (item) => item.genre === 'documentaries'
@@ -88,6 +94,8 @@ const getData = () => (dispatch) => {
 export const logout = () => (dispatch) => {
   localStorage.removeItem('user');
   dispatch(setData({}));
+  dispatch(setFormattedData({}));
+  dispatch(setFilteredData({}));
   return firebase
     .auth()
     .signOut()
@@ -137,5 +145,94 @@ export const setError = (payload) => ({ type: TYPES.SET_ERROR, payload });
 export const setPath = (payload) => ({ type: TYPES.SET_PATH, payload });
 export const setSignUpEmail = (payload) => ({
   type: TYPES.SET_SIGN_UP_EMAIL,
+  payload,
+});
+
+export const filterData = (query) => (dispatch, getState) => {
+  const { data } = getState();
+  if (query) {
+    dispatch(
+      setFilteredData({
+        films: {
+          Children: data.films.filter(
+            (item) =>
+              item.genre === 'children' &&
+              (item.title.toLowerCase().includes(query.toLowerCase()) ||
+                item.description.toLowerCase().includes(query.toLowerCase))
+          ),
+          Romance: data.films.filter(
+            (item) =>
+              item.genre === 'romance' &&
+              (item.title.toLowerCase().includes(query.toLowerCase()) ||
+                item.description.toLowerCase().includes(query.toLowerCase))
+          ),
+          Drama: data.films.filter(
+            (item) =>
+              item.genre === 'drama' &&
+              (item.title.toLowerCase().includes(query.toLowerCase()) ||
+                item.description.toLowerCase().includes(query.toLowerCase))
+          ),
+          Suspense: data.films.filter(
+            (item) =>
+              item.genre === 'suspense' &&
+              (item.title.toLowerCase().includes(query.toLowerCase()) ||
+                item.description.toLowerCase().includes(query.toLowerCase))
+          ),
+          Thriller: data.films.filter(
+            (item) =>
+              item.genre === 'thriller' &&
+              (item.title.toLowerCase().includes(query.toLowerCase()) ||
+                item.description.toLowerCase().includes(query.toLowerCase))
+          ),
+        },
+        series: {
+          Documentaries: data.series.filter(
+            (item) =>
+              item.genre === 'documentaries' &&
+              (item.title.toLowerCase().includes(query.toLowerCase()) ||
+                item.description.toLowerCase().includes(query.toLowerCase()))
+          ),
+          Comedies: data.series.filter(
+            (item) =>
+              item.genre === 'comedies' &&
+              (item.title.toLowerCase().includes(query.toLowerCase()) ||
+                item.description.toLowerCase().includes(query.toLowerCase()))
+          ),
+          Crime: data.series.filter(
+            (item) =>
+              item.genre === 'crime' &&
+              (item.title.toLowerCase().includes(query.toLowerCase()) ||
+                item.description.toLowerCase().includes(query.toLowerCase()))
+          ),
+          Children: data.series.filter(
+            (item) =>
+              item.genre === 'children' &&
+              (item.title.toLowerCase().includes(query.toLowerCase()) ||
+                item.description.toLowerCase().includes(query.toLowerCase()))
+          ),
+          'Feel Good': data.series.filter(
+            (item) =>
+              item.genre === 'feel-good' &&
+              (item.title.toLowerCase().includes(query.toLowerCase()) ||
+                item.description.toLowerCase().includes(query.toLowerCase()))
+          ),
+        },
+      })
+    );
+  } else {
+    dispatch(setFilteredData({}));
+  }
+};
+
+const setFilteredData = (payload) => ({
+  type: TYPES.SET_FILTERED_DATA,
+  payload,
+});
+const setFormattedData = (payload) => ({
+  type: TYPES.SET_FORMATTED_DATA,
+  payload,
+});
+const updateFormattedData = (payload) => ({
+  type: TYPES.UPDATE_FORMATTED_DATA,
   payload,
 });

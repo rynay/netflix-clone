@@ -4,11 +4,18 @@ import { NavLink } from 'react-router-dom';
 import * as AC from '../../redux/AC';
 import { FaSearch, FaSignOutAlt, FaSortDown } from 'react-icons/fa';
 
-const MainHeaderNavigation = ({ currentWatcher, logout }) => {
+const MainHeaderNavigation = ({ currentWatcher, logout, search }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchBarOpen, setIsSearchBarOpen] = useState(false);
   const [input, setInput] = useState('');
   const searchRef = useRef();
+  useEffect(() => {
+    if (input.trim().length >= 3) {
+      search(input.trim());
+    } else {
+      search();
+    }
+  }, [input]);
   useEffect(() => {
     if (!isSearchBarOpen) return;
     searchRef.current.focus();
@@ -19,7 +26,6 @@ const MainHeaderNavigation = ({ currentWatcher, logout }) => {
         setIsMenuOpen(false);
       }
       if (isSearchBarOpen) {
-        if (input !== '') return;
         setIsSearchBarOpen(false);
       }
     };
@@ -28,7 +34,6 @@ const MainHeaderNavigation = ({ currentWatcher, logout }) => {
         setIsMenuOpen(false);
       }
       if (e.key === 'Escape' && isSearchBarOpen) {
-        if (input !== '') return;
         setIsSearchBarOpen(false);
       }
     };
@@ -91,9 +96,6 @@ const MainHeaderNavigation = ({ currentWatcher, logout }) => {
             e.stopPropagation();
             if (!isMenuOpen) setIsMenuOpen(true);
           }}
-          onMouseOver={() => {
-            if (!isMenuOpen) setIsMenuOpen(true);
-          }}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               setIsMenuOpen((state) => !state);
@@ -104,9 +106,6 @@ const MainHeaderNavigation = ({ currentWatcher, logout }) => {
           <FaSortDown />
         </button>
         <div
-          onMouseOver={() => {
-            setIsMenuOpen(true);
-          }}
           onClick={(e) => e.stopPropagation()}
           className={`mainHeader__menu ${
             isMenuOpen ? 'mainHeader__menu--open' : ''
@@ -121,7 +120,6 @@ const MainHeaderNavigation = ({ currentWatcher, logout }) => {
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 return logout();
-                // .then(history.push('/promo'));
               }
             }}>
             <FaSignOutAlt />

@@ -5,6 +5,7 @@ import { Footer } from '../Footer';
 import { MainHeaderNavigation } from '../MainHeaderNavigation';
 import { Switch, Route } from 'react-router-dom';
 import { MainContent } from '../MainContent';
+import * as AC from '../../redux/AC';
 
 const mainFooterContent = {
   title: 'Questions? Call',
@@ -17,30 +18,49 @@ const mainFooterContent = {
   ],
   copy: 'Netflix Russia',
 };
-const Browse = ({ data, openModal, isModalOpen }) => {
+const Browse = ({
+  formattedData,
+  openModal,
+  isModalOpen,
+  filteredData,
+  filterData,
+}) => {
+  const search = (query) => {
+    if (!query) {
+      filterData();
+      return;
+    }
+    filterData(query);
+  };
   return (
     <>
       <Header
         bg={<img aria-hidden src="/images/misc/joker1.jpg" alt="" />}
-        navigation={<MainHeaderNavigation />}>
+        navigation={<MainHeaderNavigation search={search} />}>
         <MainHeaderContent openModal={openModal} />
       </Header>
-      <main>
+      <main className="browse-main">
         <Switch>
-          {/* <Route exact path="/browse">
+          <Route exact path="/browse">
             <MainContent
               isModalOpen={isModalOpen}
               openModal={openModal}
               type="films"
-              content={{ ...data.films }}
+              content={filteredData?.films || formattedData.films}
             />
-          </Route> */}
+            <MainContent
+              isModalOpen={isModalOpen}
+              openModal={openModal}
+              type="series"
+              content={filteredData?.series || formattedData.series}
+            />
+          </Route>
           <Route path="/browse/films">
             <MainContent
               isModalOpen={isModalOpen}
               openModal={openModal}
               type="films"
-              content={data.films}
+              content={filteredData?.films || formattedData.films}
             />
           </Route>
           <Route path="/browse/series">
@@ -48,7 +68,7 @@ const Browse = ({ data, openModal, isModalOpen }) => {
               isModalOpen={isModalOpen}
               openModal={openModal}
               type="series"
-              content={data.series}
+              content={filteredData?.series || formattedData.series}
             />
           </Route>
         </Switch>
@@ -59,7 +79,11 @@ const Browse = ({ data, openModal, isModalOpen }) => {
 };
 
 const mapStateToProps = (state) => ({
-  data: state.data,
+  formattedData: state.formattedData,
+  filteredData: state.filteredData,
+});
+const mapDispatchToProps = (dispatch) => ({
+  filterData: (query) => dispatch(AC.filterData(query)),
 });
 
-export default connect(mapStateToProps)(Browse);
+export default connect(mapStateToProps, mapDispatchToProps)(Browse);
