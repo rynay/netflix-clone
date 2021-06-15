@@ -68,7 +68,7 @@ const MainHeaderNavigation = ({ currentWatcher, logout, search }) => {
         </nav>
       </div>
       <div className="mainHeader__group mainHeader__group--right">
-        <form className="mainHeader__form">
+        <form onSubmit={(e) => e.preventDefault()} className="mainHeader__form">
           <button
             className="mainHeader__searchButton"
             onClick={(e) => {
