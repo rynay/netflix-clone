@@ -7,6 +7,12 @@ export const Preview = ({ close, content, type, openModal }) => {
     if (!ref) return;
     ref.current.focus();
   }, [ref]);
+  useEffect(() => {
+    if (!ref) return;
+    ref.current.scrollIntoView({
+      behavior: 'smooth',
+    });
+  }, [content]);
   return (
     <section onClick={(e) => e.stopPropagation()} className="preview">
       <img

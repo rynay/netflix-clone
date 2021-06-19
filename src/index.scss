@@ -270,10 +270,18 @@ img {
     padding: 1.75em 0;
     display: flex;
     justify-content: space-between;
+    @media screen and (max-width: 40em) {
+      padding: 0.5em 0;
+    }
   }
   &__logoContainer {
     width: 16rem;
     max-width: 33vw;
+    @media screen and (max-width: 40em) {
+      max-width: 20vw;
+      height: max-content;
+      align-self: center;
+    }
   }
 }
 //===========================================//
@@ -765,6 +773,10 @@ img {
   display: flex;
   flex-direction: column;
 
+  @media screen and (max-width: 40em) {
+    display: none;
+  }
+
   & > * {
     margin-bottom: 3rem;
     width: 60rem;
@@ -980,6 +992,12 @@ img {
       display: none;
     }
   }
+  @media screen and (max-width: 40em) {
+    margin-top: -80vh;
+  }
+  @media screen and (max-height: 35em) and (min-width: 40em) {
+    margin-top: 10rem;
+  }
   &__slider {
     display: flex;
     flex-direction: column;
@@ -1004,6 +1022,9 @@ img {
     @media screen and (max-width: 60em) {
       padding: 0.5em 0;
       column-gap: 0.5em;
+    }
+    @media screen and (max-width: 40em) {
+      grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
     }
   }
   &__description {
@@ -1048,11 +1069,12 @@ img {
 
 //===========================================//
 .preview {
+  background-color: #000;
   min-height: 50rem;
   position: relative;
   @media screen and (max-width: 60em) {
     font-size: 1.4rem;
-    min-height: 25rem;
+    min-height: 30rem;
   }
   &__content {
     color: #fff;
@@ -1080,6 +1102,7 @@ img {
     }
   }
   &__description {
+    padding: 1em;
     text-shadow: 0.2rem 0.2rem 0.15rem #000;
     width: 50rem;
     max-width: 90vw;
