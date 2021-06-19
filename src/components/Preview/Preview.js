@@ -11,6 +11,7 @@ export const Preview = ({ close, content, type, openModal }) => {
     if (!ref) return;
     ref.current.scrollIntoView({
       behavior: 'smooth',
+      block: 'center',
     });
   }, [content]);
   return (
