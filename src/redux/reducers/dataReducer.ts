@@ -1,6 +1,9 @@
 import { SET_DATA, UPDATE_DATA } from '../TYPES';
 
-export const dataReducer = (state = {}, action) => {
+export const dataReducer = (
+  state = {},
+  action: { type: string; payload?: any }
+) => {
   switch (action.type) {
     case SET_DATA:
       return action.payload;

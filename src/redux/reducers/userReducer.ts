@@ -1,10 +1,13 @@
 import * as TYPES from '../TYPES';
 
-export const filteredDataReducer = (state = {}, action) => {
+export const userReducer = (
+  state = null,
+  action: { type: string; payload?: any }
+) => {
   switch (action.type) {
-    case TYPES.SET_FILTERED_DATA:
+    case TYPES.SET_USER:
       return action.payload;
-    case TYPES.UPDATE_FILTERED_DATA:
+    case TYPES.UPDATE_USER:
       return { ...state, ...action.payload };
     default:
       return state;

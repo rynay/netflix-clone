@@ -1,6 +1,9 @@
 import * as TYPES from '../TYPES';
 
-export const formattedDataReducer = (state = {}, action) => {
+export const formattedDataReducer = (
+  state = {},
+  action: { type: string; payload?: any }
+) => {
   switch (action.type) {
     case TYPES.SET_FORMATTED_DATA:
       return action.payload;
