@@ -4,4 +4,5 @@ type TUser = {
 }
 
 type TData = {}
+type TFormattedData = {}
 type TError = {}
