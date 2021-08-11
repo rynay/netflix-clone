@@ -1,11 +1,10 @@
-import { connect } from 'react-redux';
-import { MainHeaderContent } from '../MainHeaderContent';
-import { Header } from '../Header';
-import { Footer } from '../Footer';
-import { MainHeaderNavigation } from '../MainHeaderNavigation';
-import { Switch, Route } from 'react-router-dom';
-import { MainContent } from '../MainContent';
-import * as AC from '../../redux/AC';
+import { connect } from 'react-redux'
+import { MainHeaderContent } from '../MainHeaderContent'
+import { Header } from '../Header'
+import { Footer } from '../Footer'
+import { MainHeaderNavigation } from '../MainHeaderNavigation'
+import { Switch, Route } from 'react-router-dom'
+import { MainContent } from '../MainContent'
 
 const mainFooterContent = {
   title: 'Questions? Call',
@@ -17,7 +16,7 @@ const mainFooterContent = {
     ['Media Center', 'Terms of Use', 'Contact Us'],
   ],
   copy: 'Netflix Russia',
-};
+}
 const Browse = ({
   formattedData,
   openModal,
@@ -27,11 +26,11 @@ const Browse = ({
 }) => {
   const search = (query) => {
     if (!query) {
-      filterData();
-      return;
+      filterData()
+      return
     }
-    filterData(query);
-  };
+    filterData(query)
+  }
   return (
     <>
       <Header
@@ -90,15 +89,15 @@ const Browse = ({
       </main>
       <Footer content={mainFooterContent} />
     </>
-  );
-};
+  )
+}
 
 const mapStateToProps = (state) => ({
   formattedData: state.formattedData,
   filteredData: state.filteredData,
-});
+})
 const mapDispatchToProps = (dispatch) => ({
   filterData: (query) => dispatch(AC.filterData(query)),
-});
+})
 
-export default connect(mapStateToProps, mapDispatchToProps)(Browse);
+export default connect(mapStateToProps, mapDispatchToProps)(Browse)

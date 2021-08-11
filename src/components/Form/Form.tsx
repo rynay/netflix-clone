@@ -1,14 +1,30 @@
-import { useState, Fragment } from 'react';
-import { InputField } from '../InputField';
-import { Link } from 'react-router-dom';
-import { useMemo, useEffect } from 'react';
-import { connect } from 'react-redux';
-import * as AC from '../../redux/AC';
-import { useHistory } from 'react-router-dom';
+import { useState, Fragment, FormEvent } from 'react'
+import { InputField } from '../InputField'
+import { Link } from 'react-router-dom'
+import { useMemo, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
+import { signIn, signUp } from '../../redux/AC'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootStore } from '../../redux/store'
 
-const Form = ({ type, signUpEmail, signIn, signUp, authError }) => {
-  const history = useHistory();
-  const signInFields = useMemo(
+type Props = {
+  type: 'sign-in' | 'sign-up'
+  signUpEmail: RootStore['signUpEmail']['value']
+}
+
+type TField = {
+  id: number
+  placeholder: string
+  label: string
+  value: string
+  type: string
+}
+
+const Form = ({ type, signUpEmail }: Props) => {
+  const dispatch: AppDispatch = useDispatch()
+  const authError = useSelector((store: RootStore) => store.error.value)
+  const history = useHistory()
+  const signInFields: { [key in string]: TField } = useMemo(
     () => ({
       email: {
         id: 1,
@@ -26,8 +42,8 @@ const Form = ({ type, signUpEmail, signIn, signUp, authError }) => {
       },
     }),
     []
-  );
-  const signUpFields = useMemo(
+  )
+  const signUpFields: { [key in string]: TField } = useMemo(
     () => ({
       email: {
         name: 'email',
@@ -63,76 +79,82 @@ const Form = ({ type, signUpEmail, signIn, signUp, authError }) => {
       },
     }),
     []
-  );
-  const fields = type === 'sign-in' ? signInFields : signUpFields;
-  const [error, setError] = useState('');
-  const [isValid, setIsValid] = useState();
-  const [state, setState] = useState(fields);
+  )
+  const fields = type === 'sign-in' ? signInFields : signUpFields
+  const [error, setError] = useState('')
+  const [isValid, setIsValid] = useState<boolean>()
+  const [state, setState] = useState<typeof signUpFields | typeof signInFields>(
+    fields
+  )
 
   useEffect(() => {
-    setError(authError);
-  }, [authError]);
+    setError(authError || '')
+  }, [authError])
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
     if (
       Object.keys(state)
         .map((key) => state[key].value)
         .some((field) => !field.trim())
     ) {
-      setError('Please fill all the fields');
-      setIsValid(false);
-      return;
+      setError('Please fill all the fields')
+      setIsValid(false)
+      return
     }
 
     if (type === 'sign-up') {
-      setError('');
+      setError('')
       if (!/^.+@.+$/.test(state.email.value)) {
-        setError('Please enter a valid Email address');
-        setIsValid(false);
+        setError('Please enter a valid Email address')
+        setIsValid(false)
       } else if (
         state.password.value.length < 6 ||
         state.password.value.length > 40
       ) {
-        setError('Password must be minimum 6 and maximum 40 characters long.');
-        setIsValid(false);
+        setError('Password must be minimum 6 and maximum 40 characters long.')
+        setIsValid(false)
       } else if (state.password.value !== state.repeatPassword.value) {
-        setError("Passwords don't match");
-        setIsValid(false);
+        setError("Passwords don't match")
+        setIsValid(false)
       } else {
-        setIsValid(true);
-        setError('');
-        signUp({
-          email: state.email.value,
-          name: state.name.value,
-          password: state.password.value,
-        }).then(() => {
-          history.push('/');
-        });
+        setIsValid(true)
+        setError('')
+        dispatch(
+          signUp({
+            email: state.email.value,
+            name: state.name.value,
+            password: state.password.value,
+          })
+        ).then(() => {
+          history.push('/')
+        })
       }
     } else if (type === 'sign-in') {
-      setError('');
+      setError('')
       if (!/^.+@.+$/.test(state.email.value)) {
-        setError('Please enter a valid Email address');
-        setIsValid(false);
+        setError('Please enter a valid Email address')
+        setIsValid(false)
       } else if (
         state.password.value.length < 6 ||
         state.password.value.length > 40
       ) {
-        setError('Password must be minimum 6 and maximum 40 characters long.');
-        setIsValid(false);
+        setError('Password must be minimum 6 and maximum 40 characters long.')
+        setIsValid(false)
       } else {
-        setIsValid(true);
-        setError('');
-        signIn({
-          email: state.email.value,
-          password: state.password.value,
-        }).then(() => {
-          history.push('/');
-        });
+        setIsValid(true)
+        setError('')
+        dispatch(
+          signIn({
+            email: state.email.value,
+            password: state.password.value,
+          })
+        ).then(() => {
+          history.push('/')
+        })
       }
     }
-  };
+  }
   return (
     <section className="form">
       <h2 className="form__title">
@@ -151,12 +173,12 @@ const Form = ({ type, signUpEmail, signIn, signUp, authError }) => {
               input={state[key].value}
               placeholder={state[key].placeholder}
               setInput={(value) => {
-                setIsValid(true);
-                setError('');
+                setIsValid(true)
+                setError('')
                 setState((state) => ({
                   ...state,
                   [key]: { ...state[key], value },
-                }));
+                }))
               }}
               label={state[key].label}
               type={state[key].type}
@@ -165,13 +187,13 @@ const Form = ({ type, signUpEmail, signIn, signUp, authError }) => {
                 setState((state) => ({
                   ...state,
                   [key]: { ...state[key], placeholder: '' },
-                }));
+                }))
               }}
               blur={(placeholder) => {
                 setState((state) => ({
                   ...state,
                   [key]: { ...state[key], placeholder },
-                }));
+                }))
               }}
             />
           </Fragment>
@@ -197,15 +219,7 @@ const Form = ({ type, signUpEmail, signIn, signUp, authError }) => {
         </span>
       </p>
     </section>
-  );
-};
+  )
+}
 
-const mapStateToProps = (state) => ({
-  authError: state.error,
-});
-const mapDispatchToProps = (dispatch) => ({
-  signIn: (data) => dispatch(AC.signIn(data)),
-  signUp: (data) => dispatch(AC.signUp(data)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
+export default Form

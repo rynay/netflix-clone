@@ -117,6 +117,7 @@ export const signIn =
     } catch (error) {
       dispatch(setError(error))
     }
+    return (async () => {})()
   }
 
 export const signUp =

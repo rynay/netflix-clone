@@ -4,7 +4,7 @@ type Props = {
   placeholder: string
   label: string
   type: string
-  id: string
+  id: number
   focus: () => void
   blur: (a: Props['label']) => void
 }

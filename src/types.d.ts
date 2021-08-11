@@ -20,7 +20,7 @@ type TFilm = Show
 type TSerial = Show
 
 type TFormattedData = {}
-type TError = {}
+type TError = string
 
 type TFooterContent = {
   content: {
