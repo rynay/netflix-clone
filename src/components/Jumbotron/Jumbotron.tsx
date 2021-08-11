@@ -1,4 +1,4 @@
-import content from '../../fixtures/jumbo.json';
+import content from '../../fixtures/jumbo.json'
 export const Jumbotron = () => {
   return (
     <div className="jumbotron">
@@ -35,5 +35,5 @@ export const Jumbotron = () => {
         </section>
       ))}
     </div>
-  );
-};
+  )
+}
