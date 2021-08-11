@@ -1,53 +1,64 @@
-import { useState, useEffect, useRef } from 'react';
-import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
-import * as AC from '../../redux/AC';
-import { FaSearch, FaSignOutAlt, FaSortDown } from 'react-icons/fa';
+import { useState, useEffect, createRef } from 'react'
+import { NavLink } from 'react-router-dom'
+import { FaSearch, FaSignOutAlt, FaSortDown } from 'react-icons/fa'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootStore } from '../../redux/store'
+import { logout } from '../../redux/AC'
 
-const MainHeaderNavigation = ({ currentWatcher, logout, search }) => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSearchBarOpen, setIsSearchBarOpen] = useState(false);
-  const [input, setInput] = useState('');
-  const searchRef = useRef();
+type Props = {
+  search: (query?: string) => void
+}
+
+const MainHeaderNavigation = ({ search }: Props) => {
+  const dispatch: AppDispatch = useDispatch()
+  const currentWatcher = useSelector(
+    (store: RootStore) => store.currentWatcher.value
+  )
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isSearchBarOpen, setIsSearchBarOpen] = useState(false)
+  const [input, setInput] = useState('')
+  const searchRef = createRef<HTMLInputElement>()
 
   useEffect(() => {
     if (input.trim().length >= 3) {
-      search(input.trim());
+      search(input.trim())
     } else {
-      search();
+      search()
     }
-  }, [input]);
+  }, [input])
 
   useEffect(() => {
-    if (!isSearchBarOpen) return;
-    searchRef.current.focus();
-  }, [isSearchBarOpen]);
+    if (!isSearchBarOpen) return
+    if (!searchRef.current) return
+    searchRef.current.focus()
+  }, [isSearchBarOpen])
 
   useEffect(() => {
     const handleClick = () => {
       if (isMenuOpen) {
-        setIsMenuOpen(false);
+        setIsMenuOpen(false)
       }
       if (isSearchBarOpen && !input.trim().length) {
-        setIsSearchBarOpen(false);
+        setIsSearchBarOpen(false)
       }
-    };
-    const handleKeyDown = (e) => {
+    }
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && isMenuOpen) {
-        setIsMenuOpen(false);
+        setIsMenuOpen(false)
       }
       if (e.key === 'Escape' && isSearchBarOpen && !input.trim().length) {
-        setIsSearchBarOpen(false);
+        setIsSearchBarOpen(false)
       }
-    };
-    document.body.addEventListener('click', handleClick);
-    document.body.addEventListener('keydown', handleKeyDown);
+    }
+    document.body.addEventListener('click', handleClick)
+    document.body.addEventListener('keydown', handleKeyDown)
 
     return () => {
-      document.body.removeEventListener('click', handleClick);
-      document.body.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [input, isMenuOpen, isSearchBarOpen]);
+      document.body.removeEventListener('click', handleClick)
+      document.body.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [input, isMenuOpen, isSearchBarOpen])
 
   return (
     <div className="mainHeader">
@@ -72,14 +83,14 @@ const MainHeaderNavigation = ({ currentWatcher, logout, search }) => {
           <button
             className="mainHeader__searchButton"
             onClick={(e) => {
-              e.stopPropagation();
-              if (input.trim().length) return;
-              setIsSearchBarOpen((state) => !state);
+              e.stopPropagation()
+              if (input.trim().length) return
+              setIsSearchBarOpen((state) => !state)
             }}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                if (input.trim().length) return;
-                setIsSearchBarOpen((state) => !state);
+                if (input.trim().length) return
+                setIsSearchBarOpen((state) => !state)
               }
             }}
             type="button">
@@ -100,16 +111,16 @@ const MainHeaderNavigation = ({ currentWatcher, logout, search }) => {
         <button
           className="mainHeader__toggleMenu"
           onClick={(e) => {
-            e.stopPropagation();
-            if (!isMenuOpen) setIsMenuOpen(true);
+            e.stopPropagation()
+            if (!isMenuOpen) setIsMenuOpen(true)
           }}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
-              setIsMenuOpen((state) => !state);
+              setIsMenuOpen((state) => !state)
             }
           }}
           aria-hidden>
-          <img src={currentWatcher.photoURL} alt="" />
+          <img src={currentWatcher?.photoURL} alt="" />
           <FaSortDown />
         </button>
         <div
@@ -118,15 +129,15 @@ const MainHeaderNavigation = ({ currentWatcher, logout, search }) => {
             isMenuOpen ? 'mainHeader__menu--open' : ''
           }`}>
           <a href="#1" className="mainHeader__profile">
-            <img src={currentWatcher.photoURL} alt="" />
-            <span>{currentWatcher.displayName}</span>
+            <img src={currentWatcher?.photoURL} alt="" />
+            <span>{currentWatcher?.displayName}</span>
           </a>
           <button
             className="mainHeader__logout"
-            onClick={logout}
+            onClick={() => dispatch(logout())}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {
-                return logout();
+                return dispatch(logout())
               }
             }}>
             <FaSignOutAlt />
@@ -135,17 +146,7 @@ const MainHeaderNavigation = ({ currentWatcher, logout, search }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-const mapStateToProps = (state) => ({
-  currentWatcher: state.currentWatcher,
-});
-const mapDispatchToProps = (dispatch) => ({
-  logout: () => dispatch(AC.logout()),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(MainHeaderNavigation);
+export default MainHeaderNavigation
