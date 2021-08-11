@@ -1,11 +1,15 @@
-import { useState } from 'react';
-import faqs from '../../fixtures/faqs.json';
+import { ReactChild, useState } from 'react'
+import faqs from '../../fixtures/faqs.json'
 
-export const Accordion = ({ children }) => {
-  const [selected, setSelected] = useState(null);
-  const handleSelect = (id) => {
-    setSelected(selected !== id ? id : null);
-  };
+type Props = {
+  children: ReactChild
+}
+
+export const Accordion = ({ children }: Props) => {
+  const [selected, setSelected] = useState<number | null>(null)
+  const handleSelect = (id: typeof faqs[0]['id']) => {
+    setSelected(selected !== id ? id : null)
+  }
   return (
     <article className="accordion">
       <div className="accordion__container">
@@ -22,11 +26,11 @@ export const Accordion = ({ children }) => {
               onClick={() => handleSelect(faq.id)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
-                  handleSelect(faq.id);
+                  handleSelect(faq.id)
                 }
               }}
               role="heading"
-              aria-level="3"
+              aria-level={3}
               className="accordion__question">
               <span>{faq.header}</span>
               <span className="icon">
@@ -41,5 +45,5 @@ export const Accordion = ({ children }) => {
         {children}
       </div>
     </article>
-  );
-};
+  )
+}
