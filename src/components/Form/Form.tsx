@@ -9,14 +9,14 @@ import { AppDispatch, RootStore } from '../../redux/store'
 
 type Props = {
   type: 'sign-in' | 'sign-up'
-  signUpEmail: RootStore['signUpEmail']['value']
+  signUpEmail?: RootStore['signUpEmail']['value']
 }
 
 type TField = {
   id: number
   placeholder: string
   label: string
-  value: string
+  value?: string
   type: string
 }
 
@@ -96,7 +96,7 @@ const Form = ({ type, signUpEmail }: Props) => {
     if (
       Object.keys(state)
         .map((key) => state[key].value)
-        .some((field) => !field.trim())
+        .some((field) => !field?.trim())
     ) {
       setError('Please fill all the fields')
       setIsValid(false)
@@ -105,12 +105,12 @@ const Form = ({ type, signUpEmail }: Props) => {
 
     if (type === 'sign-up') {
       setError('')
-      if (!/^.+@.+$/.test(state.email.value)) {
+      if (!/^.+@.+$/.test(state.email.value || '')) {
         setError('Please enter a valid Email address')
         setIsValid(false)
       } else if (
-        state.password.value.length < 6 ||
-        state.password.value.length > 40
+        state.password.value &&
+        (state.password.value.length < 6 || state.password.value.length > 40)
       ) {
         setError('Password must be minimum 6 and maximum 40 characters long.')
         setIsValid(false)
@@ -122,9 +122,9 @@ const Form = ({ type, signUpEmail }: Props) => {
         setError('')
         dispatch(
           signUp({
-            email: state.email.value,
-            name: state.name.value,
-            password: state.password.value,
+            email: state.email.value!,
+            name: state.name.value!,
+            password: state.password.value!,
           })
         ).then(() => {
           history.push('/')
@@ -132,12 +132,12 @@ const Form = ({ type, signUpEmail }: Props) => {
       }
     } else if (type === 'sign-in') {
       setError('')
-      if (!/^.+@.+$/.test(state.email.value)) {
+      if (!/^.+@.+$/.test(state.email.value || '')) {
         setError('Please enter a valid Email address')
         setIsValid(false)
       } else if (
-        state.password.value.length < 6 ||
-        state.password.value.length > 40
+        state.password.value &&
+        (state.password.value.length < 6 || state.password.value.length > 40)
       ) {
         setError('Password must be minimum 6 and maximum 40 characters long.')
         setIsValid(false)
@@ -146,8 +146,8 @@ const Form = ({ type, signUpEmail }: Props) => {
         setError('')
         dispatch(
           signIn({
-            email: state.email.value,
-            password: state.password.value,
+            email: state.email.value!,
+            password: state.password.value!,
           })
         ).then(() => {
           history.push('/')
@@ -170,7 +170,7 @@ const Form = ({ type, signUpEmail }: Props) => {
         {Object.keys(fields).map((key) => (
           <Fragment key={key}>
             <InputField
-              input={state[key].value}
+              input={state[key].value || ''}
               placeholder={state[key].placeholder}
               setInput={(value) => {
                 setIsValid(true)

@@ -23,7 +23,7 @@ export const Footer = ({ content }: Props) => {
             </ul>
           ))}
         </div>
-        <p>{content.copy}</p>
+        {content.copy && <p>{content.copy}</p>}
       </div>
     </footer>
   )

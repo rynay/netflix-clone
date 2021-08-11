@@ -40,6 +40,6 @@ type TFooterContent = {
     title: string
     phoneNumber: string
     links: string[][]
-    copy: string
+    copy?: string
   }
 }

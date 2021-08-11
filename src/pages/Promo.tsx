@@ -1,11 +1,11 @@
-import { PromoHeaderContent } from '../components/PromoHeaderContent';
-import { Jumbotron } from '../components/Jumbotron';
-import { Accordion } from '../components/Accordion';
-import { Header } from '../components/Header';
-import { Footer } from '../components/Footer';
-import * as ROUTES from '../constants/ROUTES';
-import { Link } from 'react-router-dom';
-import { CTA } from '../components/CTA';
+import { PromoHeaderContent } from '../components/PromoHeaderContent'
+import { Jumbotron } from '../components/Jumbotron'
+import { Accordion } from '../components/Accordion'
+import { Header } from '../components/Header'
+import { Footer } from '../components/Footer'
+import * as ROUTES from '../constants/ROUTES'
+import { Link } from 'react-router-dom'
+import { CTA } from '../components/CTA'
 
 const promoFooterContent = {
   title: 'Questions? Call',
@@ -17,7 +17,7 @@ const promoFooterContent = {
     ['Media Center', 'Terms of Use', 'Contact Us'],
   ],
   copy: 'Netflix Russia',
-};
+}
 
 const Promo = () => {
   return (
@@ -46,7 +46,7 @@ const Promo = () => {
       </Accordion>
       <Footer content={promoFooterContent} />
     </>
-  );
-};
+  )
+}
 
-export default Promo;
+export default Promo

@@ -1,9 +1,10 @@
-import { connect } from 'react-redux';
-import { Form } from '../components/Form';
-import { Header } from '../components/Header';
-import * as ROUTES from '../constants/ROUTES';
-import { Link } from 'react-router-dom';
-import { Footer } from '../components/Footer';
+import { Form } from '../components/Form'
+import { Header } from '../components/Header'
+import * as ROUTES from '../constants/ROUTES'
+import { Link } from 'react-router-dom'
+import { Footer } from '../components/Footer'
+import { useSelector } from 'react-redux'
+import { RootStore } from '../redux/store'
 
 const footerSignUpContent = {
   title: 'Questions? Call',
@@ -14,9 +15,11 @@ const footerSignUpContent = {
     ['Terms of Use'],
     ['Privacy'],
   ],
-};
+}
 
-const SignUp = ({ signUpEmail }) => {
+const SignUp = () => {
+  const signUpEmail = useSelector((store: RootStore) => store.signUpEmail.value)
+
   return (
     <>
       <Header
@@ -39,11 +42,7 @@ const SignUp = ({ signUpEmail }) => {
         <Form type="sign-up" signUpEmail={signUpEmail} />
       </Header>
     </>
-  );
-};
+  )
+}
 
-const mapStateToProps = (state) => ({
-  signUpEmail: state.signUpEmail,
-});
-
-export default connect(mapStateToProps)(SignUp);
+export default SignUp
