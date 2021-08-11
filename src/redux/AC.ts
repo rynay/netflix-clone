@@ -1,46 +1,40 @@
-import { firebase } from '../lib/firebase';
-import * as TYPES from './TYPES';
+import { AppDispatch, RootStore } from './store'
+import { firebase } from '../lib/firebase'
 
 export const init = () => (dispatch: Function) => {
-  const localUser = JSON.parse(localStorage.getItem('user'));
-  dispatch(setUser(localUser));
+  const localUser = JSON.parse(localStorage.getItem('user'))
+  dispatch(setUser(localUser))
   const listener1 = firebase.auth().onAuthStateChanged((authUser) => {
     if (authUser) {
-      dispatch(setUser(authUser));
-      localStorage.setItem('user', JSON.stringify(authUser));
+      dispatch(setUser(authUser))
+      localStorage.setItem('user', JSON.stringify(authUser))
     } else {
-      dispatch(setData({}));
-      dispatch(setFormattedData({}));
-      dispatch(setFilteredData({}));
-      dispatch(setUser(null));
-      localStorage.removeItem('user');
+      dispatch(setData({}))
+      dispatch(setFormattedData({}))
+      dispatch(setFilteredData({}))
+      dispatch(setUser(null))
+      localStorage.removeItem('user')
     }
-  });
+  })
 
   return () => {
-    listener1();
-  };
-};
+    listener1()
+  }
+}
 
-export const setCurrentWatcher =
-  (user: object | null) => (dispatch: Function) => {
-    dispatch({
-      type: TYPES.SET_CURRENT_WATCHER,
-      payload: user,
-    });
+export const handleCurrentWatcher =
+  (user: RootStore['user']) => (dispatch: AppDispatch) => {
+    dispatch(setCurrentWatcher(user))
     if (!user) {
-      dispatch(setData({}));
-      dispatch(setFormattedData({}));
-      dispatch(setFilteredData(null));
-      return;
+      dispatch(setData({}))
+      dispatch(setFormattedData({}))
+      dispatch(setFilteredData(null))
+      return
     }
-    const listener = dispatch(getData());
-    return () => {
-      listener();
-    };
-  };
+    dispatch(getData())
+  }
 
-type FilterType = (item: { genre: string }) => boolean;
+type FilterType = (item: { genre: string }) => boolean
 export const getData = () => (dispatch: Function) => {
   const listener1 = firebase
     .firestore()
@@ -50,8 +44,8 @@ export const getData = () => (dispatch: Function) => {
       const films = snapshot.docs.map((doc) => ({
         ...doc.data(),
         docId: doc.id,
-      }));
-      dispatch(updateData({ films }));
+      }))
+      dispatch(updateData({ films }))
       dispatch(
         updateFormattedData({
           films: {
@@ -62,8 +56,8 @@ export const getData = () => (dispatch: Function) => {
             Thriller: films.filter((item) => item!.genre === 'thriller'),
           },
         })
-      );
-    });
+      )
+    })
   const listener2 = firebase
     .firestore()
     .collection('series')
@@ -72,8 +66,8 @@ export const getData = () => (dispatch: Function) => {
       const series = snapshot.docs.map((doc) => ({
         ...doc.data(),
         docId: doc.id,
-      }));
-      dispatch(updateData({ series }));
+      }))
+      dispatch(updateData({ series }))
       dispatch(
         updateFormattedData({
           series: {
@@ -86,44 +80,44 @@ export const getData = () => (dispatch: Function) => {
             'Feel Good': series.filter((item) => item!.genre === 'feel-good'),
           },
         })
-      );
-    });
-  return [listener1, listener2];
-};
+      )
+    })
+  return [listener1, listener2]
+}
 
 export const logout = () => (dispatch: Function) => {
-  localStorage.removeItem('user');
-  dispatch(setData({}));
-  dispatch(setFormattedData({}));
-  dispatch(setFilteredData({}));
+  localStorage.removeItem('user')
+  dispatch(setData({}))
+  dispatch(setFormattedData({}))
+  dispatch(setFilteredData({}))
   return firebase
     .auth()
     .signOut()
     .then(() => {
-      return dispatch(setCurrentWatcher(null));
-    });
-};
+      return dispatch(handleCurrentWatcher(null))
+    })
+}
 
 export const signIn =
   ({ email, password }) =>
   (dispatch: Function) => {
-    dispatch(setError(null));
+    dispatch(setError(null))
     try {
-      return firebase.auth().signInWithEmailAndPassword(email, password);
+      return firebase.auth().signInWithEmailAndPassword(email, password)
     } catch (error) {
-      dispatch(setError(error));
+      dispatch(setError(error))
     }
-  };
+  }
 
 export const signUp =
   ({ email, password, name }) =>
   (dispatch: Function) => {
-    dispatch(setError(null));
+    dispatch(setError(null))
     return firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
-        const user = firebase.auth().currentUser;
+        const user = firebase.auth().currentUser
         user
           .updateProfile({
             displayName: name,
@@ -135,79 +129,55 @@ export const signUp =
                 name: name,
                 photo: `/images/users/${Math.floor(Math.random() * 5) + 1}.png`,
               })
-            );
+            )
           })
           .catch((error) => {
-            throw new Error(error);
-          });
+            throw new Error(error)
+          })
       })
       .catch((error) => {
-        dispatch(setError(error.message));
-      });
-  };
-
-type GeneralType = (payload: any) => { type: string; payload: any };
-const setData: GeneralType = (payload) => ({ type: TYPES.SET_DATA, payload });
-const updateData: GeneralType = (payload) => ({
-  type: TYPES.UPDATE_DATA,
-  payload,
-});
-const updateUser: GeneralType = (payload) => ({
-  type: TYPES.UPDATE_USER,
-  payload,
-});
-const setUser: GeneralType = (payload) => ({ type: TYPES.SET_USER, payload });
-export const setError: GeneralType = (payload) => ({
-  type: TYPES.SET_ERROR,
-  payload,
-});
-export const setPath: GeneralType = (payload) => ({
-  type: TYPES.SET_PATH,
-  payload,
-});
-export const setSignUpEmail: GeneralType = (payload) => ({
-  type: TYPES.SET_SIGN_UP_EMAIL,
-  payload,
-});
+        dispatch(setError(error.message))
+      })
+  }
 
 interface ItemType {
-  genre: string;
-  title: string;
-  description: string;
+  genre: string
+  title: string
+  description: string
 }
 export const filterData =
   (query: string) => (dispatch: Function, getState: Function) => {
-    const { data } = getState();
+    const { data } = getState()
     if (query) {
       dispatch(
         setFilteredData({
           films: {
             Children: data.films.filter(
-              (item:) =>
+              (item: ItemType) =>
                 item.genre === 'children' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
                   item.description.toLowerCase().includes(query.toLowerCase))
             ),
             Romance: data.films.filter(
-              (item:) =>
+              (item: ItemType) =>
                 item.genre === 'romance' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
                   item.description.toLowerCase().includes(query.toLowerCase))
             ),
             Drama: data.films.filter(
-              (item:) =>
+              (item: ItemType) =>
                 item.genre === 'drama' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
                   item.description.toLowerCase().includes(query.toLowerCase))
             ),
             Suspense: data.films.filter(
-              (item:) =>
+              (item: ItemType) =>
                 item.genre === 'suspense' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
                   item.description.toLowerCase().includes(query.toLowerCase))
             ),
             Thriller: data.films.filter(
-              (item:) =>
+              (item: ItemType) =>
                 item.genre === 'thriller' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
                   item.description.toLowerCase().includes(query.toLowerCase))
@@ -215,52 +185,39 @@ export const filterData =
           },
           series: {
             Documentaries: data.series.filter(
-              (item:) =>
+              (item: ItemType) =>
                 item.genre === 'documentaries' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
                   item.description.toLowerCase().includes(query.toLowerCase()))
             ),
             Comedies: data.series.filter(
-              (item:) =>
+              (item: ItemType) =>
                 item.genre === 'comedies' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
                   item.description.toLowerCase().includes(query.toLowerCase()))
             ),
             Crime: data.series.filter(
-              (item:) =>
+              (item: ItemType) =>
                 item.genre === 'crime' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
                   item.description.toLowerCase().includes(query.toLowerCase()))
             ),
             Children: data.series.filter(
-              (item:) =>
+              (item: ItemType) =>
                 item.genre === 'children' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
                   item.description.toLowerCase().includes(query.toLowerCase()))
             ),
             'Feel Good': data.series.filter(
-              (item:) =>
+              (item: ItemType) =>
                 item.genre === 'feel-good' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
                   item.description.toLowerCase().includes(query.toLowerCase()))
             ),
           },
         })
-      );
+      )
     } else {
-      dispatch(setFilteredData({}));
+      dispatch(setFilteredData({}))
     }
-  };
-
-const setFilteredData: GeneralType = (payload) => ({
-  type: TYPES.SET_FILTERED_DATA,
-  payload,
-});
-const setFormattedData: GeneralType = (payload) => ({
-  type: TYPES.SET_FORMATTED_DATA,
-  payload,
-});
-const updateFormattedData: GeneralType = (payload) => ({
-  type: TYPES.UPDATE_FORMATTED_DATA,
-  payload,
-});
+  }
