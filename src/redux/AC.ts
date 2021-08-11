@@ -50,7 +50,7 @@ export const getData = () => (dispatch: AppDispatch) => {
     .get()
     .then((snapshot) => {
       const films = snapshot.docs.map((doc) => ({
-        ...doc.data(),
+        ...(doc.data() as TFilm),
         docId: doc.id,
       }))
       dispatch(updateData({ films }))
@@ -72,7 +72,7 @@ export const getData = () => (dispatch: AppDispatch) => {
     .get()
     .then((snapshot) => {
       const series = snapshot.docs.map((doc) => ({
-        ...doc.data(),
+        ...(doc.data() as TSerial),
         docId: doc.id,
       }))
       dispatch(updateData({ series }))
@@ -169,31 +169,31 @@ export const filterData =
               (item) =>
                 item.genre === 'children' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
-                  item.description.toLowerCase().includes(query.toLowerCase))
+                  item.description.toLowerCase().includes(query.toLowerCase()))
             ),
             Romance: data.films.filter(
               (item) =>
                 item.genre === 'romance' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
-                  item.description.toLowerCase().includes(query.toLowerCase))
+                  item.description.toLowerCase().includes(query.toLowerCase()))
             ),
             Drama: data.films.filter(
               (item) =>
                 item.genre === 'drama' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
-                  item.description.toLowerCase().includes(query.toLowerCase))
+                  item.description.toLowerCase().includes(query.toLowerCase()))
             ),
             Suspense: data.films.filter(
               (item) =>
                 item.genre === 'suspense' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
-                  item.description.toLowerCase().includes(query.toLowerCase))
+                  item.description.toLowerCase().includes(query.toLowerCase()))
             ),
             Thriller: data.films.filter(
               (item) =>
                 item.genre === 'thriller' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
-                  item.description.toLowerCase().includes(query.toLowerCase))
+                  item.description.toLowerCase().includes(query.toLowerCase()))
             ),
           },
           series: {

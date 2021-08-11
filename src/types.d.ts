@@ -6,8 +6,18 @@ type TUser = {
 }
 
 type TData = {
-  films: any[]
-  series: any[]
+  films: TFilm[]
+  series: TSerial[]
 }
+
+type Show = {
+  genre: string
+  title: string
+  description: string
+}
+
+type TFilm = Show
+type TSerial = Show
+
 type TFormattedData = {}
 type TError = {}
