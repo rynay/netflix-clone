@@ -1,4 +1,8 @@
-const MainHeaderContent = ({ openModal }) => {
+type Props = {
+  openModal: () => void
+}
+
+const MainHeaderContent = ({ openModal }: Props) => {
   return (
     <section className="mainHeaderContent">
       <h2 className="mainHeaderContent__title">Watch Joker Now</h2>
@@ -11,7 +15,7 @@ const MainHeaderContent = ({ openModal }) => {
       <button
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
-            openModal();
+            openModal()
           }
         }}
         onClick={openModal}
@@ -19,7 +23,7 @@ const MainHeaderContent = ({ openModal }) => {
         Play
       </button>
     </section>
-  );
-};
+  )
+}
 
-export default MainHeaderContent;
+export default MainHeaderContent
