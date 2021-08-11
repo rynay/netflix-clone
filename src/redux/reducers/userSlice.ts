@@ -13,7 +13,7 @@ const userSlice = createSlice({
     },
     updateUser: (
       state,
-      action: PayloadAction<typeof initialState['value']>
+      action: PayloadAction<Partial<typeof initialState['value']>>
     ) => {
       if (state.value) {
         state.value = { ...state.value, ...action.payload }

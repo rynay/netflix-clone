@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 const initialState = {
-  value: {} as TData | {},
+  value: {} as TData | {} | null,
 }
 
 const filteredDataSlice = createSlice({
@@ -18,7 +18,9 @@ const filteredDataSlice = createSlice({
       state,
       action: PayloadAction<typeof initialState['value']>
     ) => {
-      state.value = { ...state.value, ...action.payload }
+      if (state.value) {
+        state.value = { ...state.value, ...action.payload }
+      }
     },
   },
 })

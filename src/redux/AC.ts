@@ -1,12 +1,21 @@
 import { AppDispatch, RootStore } from './store'
 import { firebase } from '../lib/firebase'
+import { setData, updateData } from './reducers/dataSlice'
+import {
+  setFormattedData,
+  updateFormattedData,
+} from './reducers/formattedDataSlice'
+import { setFilteredData } from './reducers/filteredDataSlice'
+import { setUser, updateUser } from './reducers/userSlice'
+import { setCurrentWatcher } from './reducers/currentWatcherSlice'
+import { setError } from './reducers/errorSlice'
 
-export const init = () => (dispatch: Function) => {
-  const localUser = JSON.parse(localStorage.getItem('user'))
+export const init = () => (dispatch: AppDispatch) => {
+  const localUser = JSON.parse(localStorage.getItem('user') || '')
   dispatch(setUser(localUser))
   const listener1 = firebase.auth().onAuthStateChanged((authUser) => {
     if (authUser) {
-      dispatch(setUser(authUser))
+      dispatch(setUser(authUser as unknown as TUser))
       localStorage.setItem('user', JSON.stringify(authUser))
     } else {
       dispatch(setData({}))
@@ -23,7 +32,7 @@ export const init = () => (dispatch: Function) => {
 }
 
 export const handleCurrentWatcher =
-  (user: RootStore['user']) => (dispatch: AppDispatch) => {
+  (user: RootStore['user']['value']) => (dispatch: AppDispatch) => {
     dispatch(setCurrentWatcher(user))
     if (!user) {
       dispatch(setData({}))
@@ -34,8 +43,7 @@ export const handleCurrentWatcher =
     dispatch(getData())
   }
 
-type FilterType = (item: { genre: string }) => boolean
-export const getData = () => (dispatch: Function) => {
+export const getData = () => (dispatch: AppDispatch) => {
   const listener1 = firebase
     .firestore()
     .collection('films')
@@ -85,7 +93,7 @@ export const getData = () => (dispatch: Function) => {
   return [listener1, listener2]
 }
 
-export const logout = () => (dispatch: Function) => {
+export const logout = () => (dispatch: AppDispatch) => {
   localStorage.removeItem('user')
   dispatch(setData({}))
   dispatch(setFormattedData({}))
@@ -98,9 +106,11 @@ export const logout = () => (dispatch: Function) => {
     })
 }
 
+type Auth = { email: string; password: string; name?: string }
+
 export const signIn =
-  ({ email, password }) =>
-  (dispatch: Function) => {
+  ({ email, password }: Auth) =>
+  (dispatch: AppDispatch) => {
     dispatch(setError(null))
     try {
       return firebase.auth().signInWithEmailAndPassword(email, password)
@@ -110,74 +120,77 @@ export const signIn =
   }
 
 export const signUp =
-  ({ email, password, name }) =>
-  (dispatch: Function) => {
+  ({ email, password, name }: Required<Auth>) =>
+  (dispatch: AppDispatch) => {
     dispatch(setError(null))
     return firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() => {
         const user = firebase.auth().currentUser
-        user
-          .updateProfile({
-            displayName: name,
-            photoURL: `/images/users/${Math.floor(Math.random() * 5) + 1}.png`,
-          })
-          .then(() => {
-            dispatch(
-              updateUser({
-                name: name,
-                photo: `/images/users/${Math.floor(Math.random() * 5) + 1}.png`,
-              })
-            )
-          })
-          .catch((error) => {
-            throw new Error(error)
-          })
+        if (user) {
+          user
+            .updateProfile({
+              displayName: name,
+              photoURL: `/images/users/${
+                Math.floor(Math.random() * 5) + 1
+              }.png`,
+            })
+            .then(() => {
+              dispatch(
+                updateUser({
+                  name: name,
+                  photo: `/images/users/${
+                    Math.floor(Math.random() * 5) + 1
+                  }.png`,
+                })
+              )
+            })
+            .catch((error) => {
+              throw new Error(error)
+            })
+        }
       })
       .catch((error) => {
         dispatch(setError(error.message))
       })
   }
 
-interface ItemType {
-  genre: string
-  title: string
-  description: string
-}
 export const filterData =
-  (query: string) => (dispatch: Function, getState: Function) => {
-    const { data } = getState()
-    if (query) {
+  (query: string) => (dispatch: AppDispatch, getState: () => RootStore) => {
+    const {
+      data: { value: data },
+    } = getState()
+    if (query && 'films' in data && 'series' in data) {
       dispatch(
         setFilteredData({
           films: {
             Children: data.films.filter(
-              (item: ItemType) =>
+              (item) =>
                 item.genre === 'children' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
                   item.description.toLowerCase().includes(query.toLowerCase))
             ),
             Romance: data.films.filter(
-              (item: ItemType) =>
+              (item) =>
                 item.genre === 'romance' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
                   item.description.toLowerCase().includes(query.toLowerCase))
             ),
             Drama: data.films.filter(
-              (item: ItemType) =>
+              (item) =>
                 item.genre === 'drama' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
                   item.description.toLowerCase().includes(query.toLowerCase))
             ),
             Suspense: data.films.filter(
-              (item: ItemType) =>
+              (item) =>
                 item.genre === 'suspense' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
                   item.description.toLowerCase().includes(query.toLowerCase))
             ),
             Thriller: data.films.filter(
-              (item: ItemType) =>
+              (item) =>
                 item.genre === 'thriller' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
                   item.description.toLowerCase().includes(query.toLowerCase))
@@ -185,31 +198,31 @@ export const filterData =
           },
           series: {
             Documentaries: data.series.filter(
-              (item: ItemType) =>
+              (item) =>
                 item.genre === 'documentaries' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
                   item.description.toLowerCase().includes(query.toLowerCase()))
             ),
             Comedies: data.series.filter(
-              (item: ItemType) =>
+              (item) =>
                 item.genre === 'comedies' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
                   item.description.toLowerCase().includes(query.toLowerCase()))
             ),
             Crime: data.series.filter(
-              (item: ItemType) =>
+              (item) =>
                 item.genre === 'crime' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
                   item.description.toLowerCase().includes(query.toLowerCase()))
             ),
             Children: data.series.filter(
-              (item: ItemType) =>
+              (item) =>
                 item.genre === 'children' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
                   item.description.toLowerCase().includes(query.toLowerCase()))
             ),
             'Feel Good': data.series.filter(
-              (item: ItemType) =>
+              (item) =>
                 item.genre === 'feel-good' &&
                 (item.title.toLowerCase().includes(query.toLowerCase()) ||
                   item.description.toLowerCase().includes(query.toLowerCase()))
