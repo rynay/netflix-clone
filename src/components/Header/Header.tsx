@@ -1,6 +1,14 @@
-import { Link } from 'react-router-dom';
+import { JSXElementConstructor, ReactChild, ReactComponentElement } from 'react'
+import { Link } from 'react-router-dom'
 
-const Header = ({ navigation, children, footer, bg }) => {
+type Props = {
+  navigation: ReactComponentElement<JSXElementConstructor<any>>
+  children: ReactChild
+  footer: ReactComponentElement<JSXElementConstructor<any>>
+  bg: ReactComponentElement<JSXElementConstructor<any>>
+}
+
+const Header = ({ navigation, children, footer, bg }: Props) => {
   return (
     <div className="header">
       <div className="header__backgroundImageContainer">{bg}</div>
@@ -16,7 +24,7 @@ const Header = ({ navigation, children, footer, bg }) => {
         {footer}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header
