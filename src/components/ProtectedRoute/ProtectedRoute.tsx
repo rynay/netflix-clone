@@ -7,6 +7,7 @@ type Props = {
   children: ReactChild
   alternative: string
   condition: boolean
+  exact?: boolean
 }
 
 export const ProtectedRoute = ({
@@ -14,10 +15,11 @@ export const ProtectedRoute = ({
   children,
   alternative,
   condition,
+  exact,
 }: Props) => {
   return (
     <>
-      <Route path={path}>
+      <Route path={path} exact={!!exact}>
         {condition ? children : <Redirect to={alternative} />}
       </Route>
     </>

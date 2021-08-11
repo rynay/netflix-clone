@@ -1,18 +1,22 @@
-import { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { init } from './redux/AC';
-import * as ROUTES from './constants/ROUTES';
-import { Switch } from 'react-router-dom';
-import { SignIn, SignUp, Promo, Main } from './pages';
-import { ProtectedRoute } from './components/ProtectedRoute';
-import { Modal } from './components/Modal';
+import { useEffect, useState } from 'react'
+import { init } from './redux/AC'
+import * as ROUTES from './constants/ROUTES'
+import { Switch } from 'react-router-dom'
+import { SignIn, SignUp, Promo, Main } from './pages'
+import { ProtectedRoute } from './components/ProtectedRoute'
+import { Modal } from './components/Modal'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootStore } from './redux/store'
 
-const App = ({ user, init }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const App = () => {
+  const dispatch: AppDispatch = useDispatch()
+  const user = useSelector((store: RootStore) => store.user.value)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   useEffect(() => {
-    const cleanUp = init();
-    return () => cleanUp();
-  }, []);
+    const cleanUp = dispatch(init())
+    return () => cleanUp()
+  }, [])
 
   return (
     <>
@@ -32,14 +36,14 @@ const App = ({ user, init }) => {
         <ProtectedRoute
           path={ROUTES.MAIN}
           alternative={ROUTES.PROMO}
-          condition={user}>
+          condition={!!user}>
           <Main
             isModalOpen={isModalOpen}
             openModal={() => setIsModalOpen(true)}
           />
         </ProtectedRoute>
         <ProtectedRoute
-          exact
+          exact={true}
           path={ROUTES.PROMO}
           alternative={ROUTES.MAIN}
           condition={!user}>
@@ -48,15 +52,7 @@ const App = ({ user, init }) => {
       </Switch>
       {isModalOpen && <Modal close={() => setIsModalOpen(false)} />}
     </>
-  );
-};
+  )
+}
 
-const mapStateToProps = (state) => ({
-  user: state.user,
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  init: () => dispatch(init()),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App
