@@ -1,4 +1,4 @@
-import { CTA } from '../CTA';
+import { CTA } from '../CTA'
 
 const PromoHeaderContent = () => {
   return (
@@ -11,6 +11,6 @@ const PromoHeaderContent = () => {
       </h2>
       <CTA />
     </section>
-  );
-};
-export default PromoHeaderContent;
+  )
+}
+export default PromoHeaderContent
