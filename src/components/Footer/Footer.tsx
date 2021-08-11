@@ -1,4 +1,6 @@
-export const Footer = ({ content }) => {
+type Props = TFooterContent
+
+export const Footer = ({ content }: Props) => {
   return (
     <footer className="footer">
       <div className="footer__container">
@@ -24,5 +26,5 @@ export const Footer = ({ content }) => {
         <p>{content.copy}</p>
       </div>
     </footer>
-  );
-};
+  )
+}

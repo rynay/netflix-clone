@@ -21,3 +21,12 @@ type TSerial = Show
 
 type TFormattedData = {}
 type TError = {}
+
+type TFooterContent = {
+  content: {
+    title: string
+    phoneNumber: string
+    links: string[][]
+    copy: string
+  }
+}
