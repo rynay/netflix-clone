@@ -1,19 +1,26 @@
-import { useRef, useEffect } from 'react';
-import { FaPlus } from 'react-icons/fa';
+import { useEffect, createRef } from 'react'
+import { FaPlus } from 'react-icons/fa'
 
-export const Preview = ({ close, content, type, openModal }) => {
-  const ref = useRef();
+type Props = {
+  close: () => void
+  content: TFilm | TSerial
+  type: string
+  openModal: () => void
+}
+
+export const Preview = ({ close, content, type, openModal }: Props) => {
+  const ref = createRef<HTMLButtonElement>()
   useEffect(() => {
-    if (!ref) return;
-    ref.current.focus();
-  }, [ref]);
+    if (!ref.current) return
+    ref.current.focus()
+  }, [ref])
   useEffect(() => {
-    if (!ref) return;
+    if (!ref.current) return
     ref.current.scrollIntoView({
       behavior: 'smooth',
       block: 'center',
-    });
-  }, [content]);
+    })
+  }, [content])
   return (
     <section onClick={(e) => e.stopPropagation()} className="preview">
       <img
@@ -31,7 +38,7 @@ export const Preview = ({ close, content, type, openModal }) => {
           onClick={openModal}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
-              openModal();
+              openModal()
             }
           }}
           className="preview__play">
@@ -42,7 +49,7 @@ export const Preview = ({ close, content, type, openModal }) => {
         onClick={close}
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
-            close();
+            close()
           }
         }}
         className="preview__close"
@@ -51,5 +58,5 @@ export const Preview = ({ close, content, type, openModal }) => {
         <FaPlus />
       </button>
     </section>
-  );
-};
+  )
+}

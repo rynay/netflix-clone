@@ -14,10 +14,12 @@ type Show = {
   genre: string
   title: string
   description: string
+  slug: string
+  maturity: string
 }
 
-type TFilm = Show
-type TSerial = Show
+type TFilm = Show & {}
+type TSerial = Show & {}
 
 type TFormattedData = {}
 type TError = string
