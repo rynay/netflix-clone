@@ -1,3 +1,16 @@
+import { HTMLAttributes, Ref } from 'react'
+
+type Props = {
+  input: string
+  setInput: (val: Props['input']) => void
+  placeholder: string
+  label: Ref<HTMLLabelElement>
+  type: string
+  id: number
+  focus: () => void
+  blur: (target: Props['label']) => void
+}
+
 export const InputField = ({
   input,
   placeholder,
@@ -7,8 +20,8 @@ export const InputField = ({
   id,
   focus,
   blur,
-}) => {
-  const randomId = Math.random().toString();
+}: Props) => {
+  const randomId = Math.random().toString()
   return (
     <div className="field">
       <input
@@ -25,5 +38,5 @@ export const InputField = ({
         {label}
       </label>
     </div>
-  );
-};
+  )
+}
