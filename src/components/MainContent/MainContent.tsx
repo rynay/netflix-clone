@@ -1,30 +1,42 @@
-import { useEffect, useState, Fragment } from 'react';
-import { Preview } from '../Preview';
+import { useEffect, useState, Fragment } from 'react'
+import { Preview } from '../Preview'
 
-export const MainContent = ({ content, type, openModal, isModalOpen }) => {
-  const [target, setTarget] = useState({});
-  const close = () => setTarget({});
+type Props = {
+  content: TFormattedData['films'] | TFormattedData['series']
+  type: 'films' | 'series'
+  openModal: () => void
+  isModalOpen: boolean
+}
+
+export const MainContent = ({
+  content,
+  type,
+  openModal,
+  isModalOpen,
+}: Props) => {
+  const [target, setTarget] = useState<TFilm | TSerial | {}>({})
+  const close = () => setTarget({})
   useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (isModalOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (isModalOpen) return
       if (e.key === 'Escape') {
-        console.log('MainContent');
-        setTarget({});
+        console.log('MainContent')
+        setTarget({})
       }
-    };
+    }
     const handleClick = () => {
-      if (isModalOpen) return;
-      if (target.id) {
-        setTarget({});
+      if (isModalOpen) return
+      if ('id' in target) {
+        setTarget({})
       }
-    };
-    document.body.addEventListener('keydown', handleKeyDown);
-    document.body.addEventListener('click', handleClick);
+    }
+    document.body.addEventListener('keydown', handleKeyDown)
+    document.body.addEventListener('click', handleClick)
     return () => {
-      document.body.removeEventListener('keydown', handleKeyDown);
-      document.body.removeEventListener('click', handleClick);
-    };
-  }, [isModalOpen, target]);
+      document.body.removeEventListener('keydown', handleKeyDown)
+      document.body.removeEventListener('click', handleClick)
+    }
+  }, [isModalOpen, target])
   return (
     <article className="mainContent">
       {content &&
@@ -38,17 +50,17 @@ export const MainContent = ({ content, type, openModal, isModalOpen }) => {
                     <section
                       onClick={(e) => e.stopPropagation()}
                       className={`mainContent__itemContainer ${
-                        item.id === target.id
+                        'id' in target && item.id === target.id
                           ? 'mainContent__itemContainer--open'
                           : ''
                       }`}>
                       <button
                         onClick={() => {
-                          setTarget(item);
+                          setTarget(item)
                         }}
                         onKeyDown={(e) => {
                           if (e.key === 'Enter') {
-                            setTarget(item);
+                            setTarget(item)
                           }
                         }}
                         className="mainContent__imageContainer">
@@ -59,7 +71,7 @@ export const MainContent = ({ content, type, openModal, isModalOpen }) => {
                       </button>
                       <div
                         onClick={() => {
-                          setTarget(item);
+                          setTarget(item)
                         }}
                         className="mainContent__description">
                         <h3>{item.title}</h3>
@@ -68,7 +80,7 @@ export const MainContent = ({ content, type, openModal, isModalOpen }) => {
                     </section>
                   ))}
                 </div>
-                {target.id &&
+                {'id' in target &&
                   content[key].some((item) => item.id === target.id) && (
                     <Preview
                       openModal={openModal}
@@ -82,5 +94,5 @@ export const MainContent = ({ content, type, openModal, isModalOpen }) => {
           </Fragment>
         ))}
     </article>
-  );
-};
+  )
+}

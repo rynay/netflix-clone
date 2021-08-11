@@ -12,18 +12,27 @@ type TData = {
   series: TSerial[]
 }
 
+type TFormattedData = {
+  films: {
+    [key in string]: TFilm[]
+  }
+  series: {
+    [key in string]: TSerial[]
+  }
+}
+
 type Show = {
   genre: string
   title: string
   description: string
   slug: string
   maturity: string
+  id: string
 }
 
 type TFilm = Show & {}
 type TSerial = Show & {}
 
-type TFormattedData = {}
 type TError = string
 
 type TFooterContent = {
