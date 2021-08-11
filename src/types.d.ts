@@ -2,7 +2,8 @@ type TUser = {
   username: string
   userId: string
   name: string
-  photoURL: string
+  photoURL?: string
+  photo?: string
   displayName: string
 }
 
