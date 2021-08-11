@@ -1,25 +1,28 @@
-import { useEffect } from 'react';
-import { useRef } from 'react';
-import { FaPlus } from 'react-icons/fa';
+import { createRef, useEffect } from 'react'
+import { FaPlus } from 'react-icons/fa'
 
-export const Modal = ({ close }) => {
-  const ref = useRef();
+type Props = {
+  close: () => void
+}
+
+export const Modal = ({ close }: Props) => {
+  const ref = createRef<HTMLButtonElement>()
   useEffect(() => {
-    const handleClose = (e) => {
+    const handleClose = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        console.log('Modal');
-        close();
+        console.log('Modal')
+        close()
       }
-    };
-    document.body.addEventListener('keydown', handleClose);
+    }
+    document.body.addEventListener('keydown', handleClose)
     return () => {
-      document.body.removeEventListener('keydown', handleClose);
-    };
-  }, []);
+      document.body.removeEventListener('keydown', handleClose)
+    }
+  }, [])
   useEffect(() => {
-    if (!ref) return;
-    ref.current.focus();
-  }, [ref]);
+    if (!ref.current) return
+    ref.current.focus()
+  }, [ref])
   return (
     <div onClick={close} className="modal">
       <div onClick={(e) => e.stopPropagation()} className="modal__content">
@@ -33,12 +36,12 @@ export const Modal = ({ close }) => {
           aria-label="close popup"
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
-              close();
+              close()
             }
           }}>
           <FaPlus />
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
