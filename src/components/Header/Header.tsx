@@ -2,10 +2,10 @@ import { JSXElementConstructor, ReactChild, ReactComponentElement } from 'react'
 import { Link } from 'react-router-dom'
 
 type Props = {
-  navigation: ReactComponentElement<JSXElementConstructor<any>>
+  navigation?: ReactComponentElement<JSXElementConstructor<any>>
   children: ReactChild
-  footer: ReactComponentElement<JSXElementConstructor<any>>
-  bg: ReactComponentElement<JSXElementConstructor<any>>
+  footer?: ReactComponentElement<JSXElementConstructor<any>>
+  bg?: ReactComponentElement<JSXElementConstructor<any>>
 }
 
 const Header = ({ navigation, children, footer, bg }: Props) => {

@@ -2,7 +2,8 @@ type TUser = {
   username: string
   userId: string
   name: string
-  photo: string
+  photoURL: string
+  displayName: string
 }
 
 type TData = {
