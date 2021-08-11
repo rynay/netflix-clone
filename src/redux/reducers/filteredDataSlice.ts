@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 const initialState = {
-  value: {} as TData | {} | null,
+  value: {} as TFormattedData | {} | null,
 }
 
 const filteredDataSlice = createSlice({

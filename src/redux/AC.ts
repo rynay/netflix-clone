@@ -158,7 +158,7 @@ export const signUp =
   }
 
 export const filterData =
-  (query: string) => (dispatch: AppDispatch, getState: () => RootStore) => {
+  (query?: string) => (dispatch: AppDispatch, getState: () => RootStore) => {
     const {
       data: { value: data },
     } = getState()

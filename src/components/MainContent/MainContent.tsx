@@ -2,7 +2,7 @@ import { useEffect, useState, Fragment } from 'react'
 import { Preview } from '../Preview'
 
 type Props = {
-  content: TFormattedData['films'] | TFormattedData['series']
+  content?: TFormattedData['films'] | TFormattedData['series']
   type: 'films' | 'series'
   openModal: () => void
   isModalOpen: boolean

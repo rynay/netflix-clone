@@ -1,10 +1,12 @@
-import { connect } from 'react-redux'
 import { MainHeaderContent } from '../MainHeaderContent'
 import { Header } from '../Header'
 import { Footer } from '../Footer'
 import { MainHeaderNavigation } from '../MainHeaderNavigation'
 import { Switch, Route } from 'react-router-dom'
 import { MainContent } from '../MainContent'
+import { useDispatch, useSelector } from 'react-redux'
+import { AppDispatch, RootStore } from '../../redux/store'
+import { filterData } from '../../redux/AC'
 
 const mainFooterContent = {
   title: 'Questions? Call',
@@ -17,16 +19,24 @@ const mainFooterContent = {
   ],
   copy: 'Netflix Russia',
 }
-const Browse = ({
-  formattedData,
-  openModal,
-  isModalOpen,
-  filteredData,
-  filterData,
-}) => {
-  const search = (query) => {
+
+type Props = {
+  openModal: () => void
+  isModalOpen: boolean
+}
+
+const Browse = ({ openModal, isModalOpen }: Props) => {
+  const dispatch: AppDispatch = useDispatch()
+  const formattedData = useSelector(
+    (store: RootStore) => store.formattedData.value
+  )
+  const filteredData = useSelector(
+    (store: RootStore) => store.filteredData.value
+  )
+
+  const search = (query?: string) => {
     if (!query) {
-      filterData()
+      dispatch(filterData())
       return
     }
     filterData(query)
@@ -42,6 +52,7 @@ const Browse = ({
         <Switch>
           <Route exact path="/browse">
             {filteredData &&
+              'films' in filteredData &&
               filteredData.films &&
               Object.keys(filteredData.films).filter(
                 (key) => filteredData.films[key].length > 0
@@ -52,11 +63,18 @@ const Browse = ({
               isModalOpen={isModalOpen}
               openModal={openModal}
               type="films"
-              content={filteredData?.films || formattedData.films}
+              content={
+                filteredData && 'films' in filteredData
+                  ? filteredData.films
+                  : 'films' in formattedData
+                  ? formattedData.films
+                  : undefined
+              }
             />
           </Route>
           <Route path="/browse/films">
             {filteredData &&
+              'films' in filteredData &&
               filteredData.films &&
               Object.keys(filteredData.films).filter(
                 (key) => filteredData.films[key].length > 0
@@ -67,11 +85,18 @@ const Browse = ({
               isModalOpen={isModalOpen}
               openModal={openModal}
               type="films"
-              content={filteredData?.films || formattedData.films}
+              content={
+                filteredData && 'films' in filteredData
+                  ? filteredData.films
+                  : 'films' in formattedData
+                  ? formattedData.films
+                  : undefined
+              }
             />
           </Route>
           <Route path="/browse/series">
             {filteredData &&
+              'series' in filteredData &&
               filteredData.series &&
               Object.keys(filteredData.series).filter(
                 (key) => filteredData.series[key].length > 0
@@ -82,7 +107,13 @@ const Browse = ({
               isModalOpen={isModalOpen}
               openModal={openModal}
               type="series"
-              content={filteredData?.series || formattedData.series}
+              content={
+                filteredData && 'series' in filteredData
+                  ? filteredData.series
+                  : 'series' in formattedData
+                  ? formattedData.series
+                  : undefined
+              }
             />
           </Route>
         </Switch>
@@ -92,12 +123,4 @@ const Browse = ({
   )
 }
 
-const mapStateToProps = (state) => ({
-  formattedData: state.formattedData,
-  filteredData: state.filteredData,
-})
-const mapDispatchToProps = (dispatch) => ({
-  filterData: (query) => dispatch(AC.filterData(query)),
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(Browse)
+export default Browse
