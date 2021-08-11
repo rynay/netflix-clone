@@ -1,14 +1,12 @@
-import { HTMLAttributes, Ref } from 'react'
-
 type Props = {
   input: string
   setInput: (val: Props['input']) => void
   placeholder: string
-  label: Ref<HTMLLabelElement>
+  label: string
   type: string
-  id: number
+  id: string
   focus: () => void
-  blur: (target: Props['label']) => void
+  blur: (a: Props['label']) => void
 }
 
 export const InputField = ({
