@@ -182,7 +182,7 @@ const Form = ({ type, signUpEmail }: Props) => {
               }}
               label={state[key].label}
               type={state[key].type}
-              id={state[key].id}
+              id={state[key].id.toString()}
               focus={() => {
                 setState((state) => ({
                   ...state,

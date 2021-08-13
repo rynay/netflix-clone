@@ -11,11 +11,20 @@ import { setCurrentWatcher } from './reducers/currentWatcherSlice'
 import { setError } from './reducers/errorSlice'
 
 export const init = () => (dispatch: AppDispatch) => {
-  const localUser = JSON.parse(localStorage.getItem('user') || '')
+  const localUser = JSON.parse(localStorage.getItem('user') || 'null')
   dispatch(setUser(localUser))
   const listener1 = firebase.auth().onAuthStateChanged((authUser) => {
     if (authUser) {
-      dispatch(setUser(authUser as unknown as TUser))
+      dispatch(
+        setUser({
+          email: authUser.email,
+          photo: authUser.photoURL,
+          username: authUser.displayName,
+          userId: authUser.uid,
+          displayName: authUser.displayName,
+          name: authUser.displayName,
+        })
+      )
       localStorage.setItem('user', JSON.stringify(authUser))
     } else {
       dispatch(setData({}))

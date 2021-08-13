@@ -16,8 +16,8 @@ const Spinner = () => {
         />
         <img
           className="spinner__image"
-          src={currentWatcher?.photoURL}
-          alt={currentWatcher?.displayName}
+          src={currentWatcher?.photoURL || currentWatcher?.photo || ''}
+          alt={currentWatcher?.displayName || ''}
         />
       </div>
     </Header>

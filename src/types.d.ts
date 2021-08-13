@@ -1,10 +1,11 @@
 type TUser = {
-  username: string
+  username: string | null
   userId: string
-  name: string
-  photoURL?: string
-  photo?: string
-  displayName: string
+  name: string | null
+  photoURL?: string | null
+  photo?: string | null
+  displayName: string | null
+  email: string | null
 }
 
 type TData = {
