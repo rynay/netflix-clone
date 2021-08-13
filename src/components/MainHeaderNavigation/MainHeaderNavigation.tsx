@@ -120,7 +120,10 @@ const MainHeaderNavigation = ({ search }: Props) => {
             }
           }}
           aria-hidden>
-          <img src={currentWatcher?.photoURL || 'images/users/1.png'} alt="" />
+          <img
+            src={currentWatcher?.photoURL || currentWatcher?.photo || ''}
+            alt=""
+          />
           <FaSortDown />
         </button>
         <div
@@ -130,7 +133,7 @@ const MainHeaderNavigation = ({ search }: Props) => {
           }`}>
           <a href="#1" className="mainHeader__profile">
             <img
-              src={currentWatcher?.photoURL || 'images/users/1.png'}
+              src={currentWatcher?.photoURL || currentWatcher?.photo || ''}
               alt=""
             />
             <span>{currentWatcher?.displayName}</span>

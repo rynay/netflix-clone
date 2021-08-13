@@ -15,17 +15,16 @@ export const init = () => (dispatch: AppDispatch) => {
   dispatch(setUser(localUser))
   const listener1 = firebase.auth().onAuthStateChanged((authUser) => {
     if (authUser) {
-      dispatch(
-        setUser({
-          email: authUser.email,
-          photo: authUser.photoURL,
-          username: authUser.displayName,
-          userId: authUser.uid,
-          displayName: authUser.displayName,
-          name: authUser.displayName,
-        })
-      )
-      localStorage.setItem('user', JSON.stringify(authUser))
+      const user = {
+        email: authUser.email,
+        photo: authUser.photoURL,
+        username: authUser.displayName,
+        userId: authUser.uid,
+        displayName: authUser.displayName,
+        name: authUser.displayName,
+      }
+      dispatch(setUser(user))
+      localStorage.setItem('user', JSON.stringify(user))
     } else {
       dispatch(setData({}))
       dispatch(setFormattedData({}))

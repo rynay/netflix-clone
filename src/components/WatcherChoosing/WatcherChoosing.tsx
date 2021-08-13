@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { setCurrentWatcher } from '../../redux/reducers/currentWatcherSlice'
+import { handleCurrentWatcher } from '../../redux/AC'
 import { AppDispatch, RootStore } from '../../redux/store'
 
 const WatcherChoosing = () => {
@@ -12,10 +12,10 @@ const WatcherChoosing = () => {
       <div className="watcherChoosing__usersContainer">
         <button
           className="watcherChoosing__user"
-          onClick={() => dispatch(setCurrentWatcher(user))}
+          onClick={() => dispatch(handleCurrentWatcher(user))}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
-              return dispatch(setCurrentWatcher(user))
+              return dispatch(handleCurrentWatcher(user))
             }
           }}>
           <img
