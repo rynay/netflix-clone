@@ -39,7 +39,7 @@ const Browse = ({ openModal, isModalOpen }: Props) => {
       dispatch(filterData())
       return
     }
-    filterData(query)
+    dispatch(filterData(query))
   }
   return (
     <>

@@ -170,6 +170,7 @@ export const filterData =
     const {
       data: { value: data },
     } = getState()
+    console.log(query)
     if (query && 'films' in data && 'series' in data) {
       dispatch(
         setFilteredData({

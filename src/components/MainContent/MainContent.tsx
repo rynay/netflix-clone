@@ -48,6 +48,7 @@ export const MainContent = ({
                 <div className="mainContent__itemsContainer">
                   {content[key].map((item) => (
                     <section
+                      key={item.id}
                       onClick={(e) => e.stopPropagation()}
                       className={`mainContent__itemContainer ${
                         'id' in target && item.id === target.id

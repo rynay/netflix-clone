@@ -136,7 +136,11 @@ const MainHeaderNavigation = ({ search }: Props) => {
               src={currentWatcher?.photoURL || currentWatcher?.photo || ''}
               alt=""
             />
-            <span>{currentWatcher?.displayName}</span>
+            <span>
+              {currentWatcher?.displayName ||
+                currentWatcher?.username ||
+                currentWatcher?.name}
+            </span>
           </a>
           <button
             className="mainHeader__logout"
